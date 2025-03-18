@@ -95,6 +95,15 @@ button:focus-visible {
             transform: rotatex(20deg) rotateZ(-20deg) skewX(20deg) translateZ(0) translateY(-100%);
         }
     }
+
+    @keyframes infinite-horizontal-scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-100% - 4rem));
+        }
+    }
 }
 
 @layer utilities {
@@ -110,4 +119,5 @@ button:focus-visible {
 @theme {
     --animate-blob: blob 14s infinite;
     --animate-skew-scroll: skew-scroll 25s linear infinite;
+    --animate-infinite-horizontal-scroll: infinite-horizontal-scroll 50s linear infinite;
 }
