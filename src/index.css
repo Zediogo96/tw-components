@@ -121,3 +121,35 @@ button:focus-visible {
     --animate-skew-scroll: skew-scroll 25s linear infinite;
     --animate-infinite-horizontal-scroll: infinite-horizontal-scroll 50s linear infinite;
 }
+
+// Count up numbers
+@property --num-transactions {
+    syntax: '<integer>';
+    initial-value: 0;
+    inherits: false;
+}
+
+@property --num-assets {
+    syntax: '<integer>';
+    initial-value: 0;
+    inherits: false;
+}
+
+@property --num-users {
+    syntax: '<integer>';
+    initial-value: 0;
+    inherits: false;
+}
+
+@keyframes counter {
+    from {
+        --num-transactions: 0;
+        --num-assets: 0;
+        --num-users: 0;
+    }
+    to {
+        --num-transactions: 44;
+        --num-assets: 119;
+        --num-users: 4600;
+    }
+}
