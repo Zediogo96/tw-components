@@ -3,7 +3,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { Briefcase, Building, Check, HelpCircle, Send, User } from 'lucide-react';
+import { Briefcase, Building, Check, HelpCircle, LucideIcon, Send, User } from 'lucide-react';
 import { FC, useState } from 'react';
 
 const stepColors = {
@@ -31,9 +31,9 @@ const stepColors = {
 
 interface Step {
     title: string;
-    icon: FC;
+    icon: LucideIcon;
     component: FC;
-    color: keyof typeof stepColors;
+    color: 'personal' | 'company' | 'job' | 'confirmation';
 }
 
 interface StepIndicatorProps {
@@ -287,7 +287,7 @@ const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, total
                     }
                 >
                     <div className={cn('transition-transform duration-300', isActive && 'animate-iconSpin')}>
-                        {isComplete ? <Check className="w-5 h-5" /> : <step.icon className="w-5 h-5" />}
+                        {isComplete ? <Check size={20} /> : <step.icon size={20} />}
                     </div>
                 </div>
 
