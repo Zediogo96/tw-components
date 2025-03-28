@@ -320,9 +320,10 @@ const MultiStepForm: FC = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
     const [isAnimating, setIsAnimating] = useState(false);
-
-    // Keep track of both current and next components
     const [displayedStep, setDisplayedStep] = useState(currentStep);
+
+    // Add state for title animation
+    const [displayedTitle, setDisplayedTitle] = useState(steps[currentStep].title);
     const CurrentStepComponent = steps[displayedStep].component;
 
     const handleNext = () => {
@@ -330,12 +331,12 @@ const MultiStepForm: FC = () => {
             setDirection('forward');
             setIsAnimating(true);
 
-            // Wait for exit animation, then update
             setTimeout(() => {
                 setDisplayedStep(currentStep + 1);
+                setDisplayedTitle(steps[currentStep + 1].title);
                 setCurrentStep(currentStep + 1);
                 setIsAnimating(false);
-            }, 200); // Match animation duration
+            }, 200);
         }
     };
 
@@ -344,12 +345,12 @@ const MultiStepForm: FC = () => {
             setDirection('backward');
             setIsAnimating(true);
 
-            // Wait for exit animation, then update
             setTimeout(() => {
                 setDisplayedStep(currentStep - 1);
+                setDisplayedTitle(steps[currentStep - 1].title);
                 setCurrentStep(currentStep - 1);
                 setIsAnimating(false);
-            }, 200); // Match animation duration
+            }, 200);
         }
     };
 
@@ -357,10 +358,19 @@ const MultiStepForm: FC = () => {
         <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full bg-card text-card-foreground rounded-xl shadow-lg p-8 sm:p-10 lg:p-14 min-h-[800px] flex flex-col border">
                 <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
-                    {/* Step Title */}
-                    <h1 className="text-2xl sm:text-3xl font-bold shrink-0">{steps[currentStep].title}</h1>
+                    {/* Animated title */}
+                    <div className="relative h-[2.25rem] sm:h-[2.5rem]">
+                        <h1
+                            key={displayedTitle}
+                            className={cn(
+                                'text-2xl sm:text-3xl font-bold shrink-0  w-full',
+                                isAnimating ? 'animate-fade-out-up' : 'animate-fade-in-up'
+                            )}
+                        >
+                            {displayedTitle}
+                        </h1>
+                    </div>
 
-                    {/* Step Indicators */}
                     <nav className="w-full lg:w-auto" aria-label="Form Steps">
                         <div className="flex items-center justify-between">
                             {steps.map((step, index) => (
