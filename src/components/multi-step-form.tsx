@@ -318,17 +318,38 @@ const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, total
 
 const MultiStepForm: FC = () => {
     const [currentStep, setCurrentStep] = useState(0);
-    const CurrentStepComponent = steps[currentStep].component;
+    const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    // Keep track of both current and next components
+    const [displayedStep, setDisplayedStep] = useState(currentStep);
+    const CurrentStepComponent = steps[displayedStep].component;
 
     const handleNext = () => {
-        if (currentStep < steps.length - 1) {
-            setCurrentStep((curr) => curr + 1);
+        if (currentStep < steps.length - 1 && !isAnimating) {
+            setDirection('forward');
+            setIsAnimating(true);
+
+            // Wait for exit animation, then update
+            setTimeout(() => {
+                setDisplayedStep(currentStep + 1);
+                setCurrentStep(currentStep + 1);
+                setIsAnimating(false);
+            }, 200); // Match animation duration
         }
     };
 
     const handlePrevious = () => {
-        if (currentStep > 0) {
-            setCurrentStep((curr) => curr - 1);
+        if (currentStep > 0 && !isAnimating) {
+            setDirection('backward');
+            setIsAnimating(true);
+
+            // Wait for exit animation, then update
+            setTimeout(() => {
+                setDisplayedStep(currentStep - 1);
+                setCurrentStep(currentStep - 1);
+                setIsAnimating(false);
+            }, 200); // Match animation duration
         }
     };
 
@@ -355,17 +376,31 @@ const MultiStepForm: FC = () => {
                     </nav>
                 </div>
 
-                {/* Form Content */}
-                <main className="flex-1 mb-10">
-                    <CurrentStepComponent />
+                {/* Form Content with Animation */}
+                <main className="flex-1 relative">
+                    <div
+                        key={displayedStep}
+                        className={cn(
+                            'absolute w-full transition-all duration-200',
+                            isAnimating
+                                ? direction === 'forward'
+                                    ? 'animate-fade-out-left'
+                                    : 'animate-fade-out-right'
+                                : direction === 'forward'
+                                ? 'animate-fade-in-right'
+                                : 'animate-fade-in-left'
+                        )}
+                    >
+                        <CurrentStepComponent />
+                    </div>
                 </main>
 
                 {/* Navigation Buttons */}
                 <footer className="flex justify-between pt-8 border-t">
-                    <Button variant="secondary" onClick={handlePrevious} disabled={currentStep === 0}>
+                    <Button variant="secondary" onClick={handlePrevious} disabled={currentStep === 0 || isAnimating}>
                         Previous
                     </Button>
-                    <Button onClick={handleNext} disabled={currentStep === steps.length - 1}>
+                    <Button onClick={handleNext} disabled={currentStep === steps.length - 1 || isAnimating}>
                         {currentStep === steps.length - 2 ? 'Finish' : 'Next'}
                     </Button>
                 </footer>
