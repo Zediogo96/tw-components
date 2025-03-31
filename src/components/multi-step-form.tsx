@@ -9,10 +9,10 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import {
+    BanknoteIcon,
     Briefcase,
     Calendar as CalendarIcon,
-    Check,
-    CheckCircle,
+    Check, // Add this import
     HelpCircle,
     LightbulbIcon,
     LucideIcon,
@@ -36,10 +36,11 @@ const stepColors = {
         light: 'rgb(var(--color-amber-50))',
         border: 'rgb(var(--color-amber-200))',
     },
-    confirmation: {
-        base: 'rgb(var(--color-indigo-500))', // Indigo instead of green
-        light: 'rgb(var(--color-indigo-50))',
-        border: 'rgb(var(--color-indigo-200))',
+    compensation: {
+        // Updated name
+        base: 'rgb(var(--color-rose-500))', // Soft Red (Rose)
+        light: 'rgb(var(--color-rose-50))',
+        border: 'rgb(var(--color-rose-200))',
     },
 };
 
@@ -47,7 +48,7 @@ interface Step {
     title: string;
     icon: LucideIcon;
     component: FC;
-    color: 'personal' | 'company' | 'job' | 'confirmation';
+    color: 'personal' | 'company' | 'job' | 'compensation'; // Updated type
 }
 
 interface StepIndicatorProps {
@@ -437,23 +438,104 @@ const JobDetails: FC = () => {
     );
 };
 
-const Confirmation: FC = () => (
-    <div className="space-y-6">
-        <h2 className="text-2xl font-semibold tracking-tight">Revise as Informações</h2>
-        <div className="space-y-4">
-            <p className="text-muted-foreground">
-                Por favor, revise todas as informações antes de submeter. Não será possível editar após o envio.
-            </p>
-            <div className="rounded-lg border p-6 space-y-4">
-                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                    <span className="text-muted-foreground">Título:</span>
-                    <span>Desenvolvedor Full Stack</span>
-                    <span className="text-muted-foreground">Localização:</span>
-                    <span>Porto, Portugal</span>
-                    <span className="text-muted-foreground">Tipo:</span>
-                    <span>Remoto</span>
-                    <span className="text-muted-foreground">Experiência:</span>
-                    <span>2 anos</span>
+const Compensation: FC = () => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left side - Form Fields */}
+        <div className="space-y-6">
+            <div className="space-y-2">
+                <h2 className="text-2xl font-semibold tracking-tight">Remuneração e Benefícios</h2>
+                <p className="text-muted-foreground">
+                    Defina os detalhes de pagamento e benefícios oferecidos para esta posição.
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField label="Frequência de Pagamento">
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="select">Selecionar</SelectItem>
+                            <SelectItem value="monthly">Monthly</SelectItem>
+                            <SelectItem value="hourly">Hourly</SelectItem>
+                            <SelectItem value="per-shift">Per Shift</SelectItem>
+                            <SelectItem value="agreement">Agreement</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+
+                <FormField label="Valor (€)">
+                    <Input
+                        type="number"
+                        placeholder="Ex: 1000"
+                        min="0"
+                        className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    />
+                </FormField>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+                <FormField
+                    label="Benefícios"
+                    tooltip="Aqui pode mencionar quaisquer benefícios extra que o colaborador possa receber"
+                >
+                    <Textarea
+                        placeholder="Ex: Seguro de saúde, subsídio de alimentação..."
+                        className="min-h-[120px] max-h-[200px] resize-y"
+                        style={{ resize: 'vertical' }}
+                    />
+                </FormField>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField label="Método de pagamento" tooltip="Especifique aqui como pagará ao colaborador">
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="unilinkr">Via Unilinkr (Automated Green Receipts)</SelectItem>
+                            <SelectItem value="green-receipts">Green Receipts</SelectItem>
+                            <SelectItem value="isolated-acts">Isolated Acts</SelectItem>
+                            <SelectItem value="employment-contract">Employment Contract</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+
+                <FormField label="Tipo de Candidatos">
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="select">Select</SelectItem>
+                            <SelectItem value="public">Public</SelectItem>
+                            <SelectItem value="teams-only">Teams only</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+            </div>
+        </div>
+
+        {/* Right side - Illustration */}
+        <div className="relative hidden lg:block">
+            <div className="sticky top-8 space-y-4">
+                <div className="relative rounded-2xl overflow-hidden h-[400px]">
+                    <img
+                        src="https://img.freepik.com/free-vector/mobile-banking-concept-illustration_114360-13928.jpg?t=st=1743413893~exp=1743417493~hmac=7a00ccc46b7b265bafae2fd83cfa3e31bb8cc9fb9141306ac7b9ddba51fcb033&w=1380"
+                        alt="Compensation and Benefits Illustration"
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+
+                {/* Single Tip Message */}
+                <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <LightbulbIcon className="h-4 w-4 text-primary" color="orange" />
+                        <p>Seja transparente sobre a remuneração para atrair os melhores candidatos</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -464,7 +546,7 @@ const steps: Step[] = [
     { title: 'Informação do Trabalho', icon: Briefcase, component: PersonalInfo, color: 'personal' },
     { title: 'Localização', icon: MapPin, component: CompanyDetails, color: 'company' },
     { title: 'Horário & Vagas', icon: CalendarIcon, component: JobDetails, color: 'job' },
-    { title: 'Confirmação', icon: CheckCircle, component: Confirmation, color: 'confirmation' },
+    { title: 'Remuneração e Benefícios', icon: BanknoteIcon, component: Compensation, color: 'compensation' }, // Updated name
 ];
 
 const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, totalSteps }) => {
@@ -520,7 +602,7 @@ const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, total
                     <div className="ml-3 overflow-hidden">
                         <div className="animate-slideIn">
                             <p className="text-sm text-muted-foreground">
-                                Step {index + 1} of {totalSteps}
+                                Step {index + 1} / {totalSteps}
                             </p>
                             <p className="font-medium">{step.title}</p>
                         </div>

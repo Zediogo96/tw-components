@@ -61,6 +61,10 @@
     --color-amber-50: 255 251 235;
     --color-amber-200: 253 230 138;
     --color-amber-500: 245 158 11;
+
+    --color-rose-50: 255 241 242;
+    --color-rose-200: 251 207 208;
+    --color-rose-500: 239 68 68;
 }
 
 a {
