@@ -560,8 +560,6 @@ const MultiStepForm: FC = () => {
     const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
     const [isAnimating, setIsAnimating] = useState(false);
     const [displayedStep, setDisplayedStep] = useState(currentStep);
-
-    // Add state for title animation
     const [displayedTitle, setDisplayedTitle] = useState(steps[currentStep].title);
     const CurrentStepComponent = steps[displayedStep].component;
 
@@ -648,7 +646,7 @@ const MultiStepForm: FC = () => {
                     Previous
                 </Button>
                 <Button onClick={handleNext} disabled={currentStep === steps.length - 1 || isAnimating}>
-                    {currentStep === steps.length - 2 ? 'Finish' : 'Next'}
+                    {currentStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
             </footer>
         </section>
