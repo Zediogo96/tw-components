@@ -2,8 +2,18 @@ import { Button } from '@/components/ui/button';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { Briefcase, Building, Check, HelpCircle, LucideIcon, Send, User } from 'lucide-react';
+import {
+    Briefcase,
+    Check,
+    CheckCircle,
+    ClipboardList,
+    HelpCircle,
+    LightbulbIcon,
+    LucideIcon,
+    MapPin,
+} from 'lucide-react';
 import { FC, useState } from 'react';
 
 const stepColors = {
@@ -72,140 +82,259 @@ const FormField: FC<{
 );
 
 const PersonalInfo: FC = () => (
-    <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField
-                label="Grau de especialização"
-                tooltipContent={
-                    <div className="space-y-2">
-                        <p>
-                            <strong>Especializado</strong> - a formação do candidato importa
-                        </p>
-                        <p>
-                            <strong>Não especializado</strong> - a formação do colaborador não importa
-                        </p>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left side - Form Fields */}
+        <div className="space-y-6">
+            <div className="space-y-2">
+                <h2 className="text-2xl font-semibold tracking-tight">Informação do Trabalho</h2>
+                <p className="text-muted-foreground">
+                    Preencha os detalhes básicos do trabalho que você está oferecendo.
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                    label="Grau de especialização"
+                    tooltipContent={
+                        <div className="space-y-2">
+                            <p>
+                                <strong>Especializado</strong> - a formação do candidato importa
+                            </p>
+                            <p>
+                                <strong>Não especializado</strong> - a formação do colaborador não importa
+                            </p>
+                        </div>
+                    }
+                >
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="select">Selecionar</SelectItem>
+                            <SelectItem value="specialized">Especializado</SelectItem>
+                            <SelectItem value="non-specialized">Não Especializado</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+                <FormField label="Titulo do Trabalho" tooltip="Título do trabalho visível para os candidatos">
+                    <Input placeholder="Ex: Desenvolvedor Full Stack" />
+                </FormField>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                    label="Área de trabalho"
+                    tooltip="A categoria que melhor se adequa às tarefas dos colaboradores"
+                >
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar área" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="comercial">Comercial</SelectItem>
+                            <SelectItem value="empregado-mesa">Empregado de Mesa</SelectItem>
+                            <SelectItem value="tecnico-saude">Tecnico de Saude</SelectItem>
+                            <SelectItem value="explicacao">Explicação</SelectItem>
+                            <SelectItem value="programacao">Programação</SelectItem>
+                            <SelectItem value="marketing">Marketing</SelectItem>
+                            <SelectItem value="hospedeiro-evento">Hospedeiro em Evento</SelectItem>
+                            <SelectItem value="motorista-driver">Motorista Driver</SelectItem>
+                            <SelectItem value="operador-logistico">Operador Logístico</SelectItem>
+                            <SelectItem value="promotor-vendas">Promotor de Vendas</SelectItem>
+                            <SelectItem value="secretario">Secretário</SelectItem>
+                            <SelectItem value="consultor">Consultor</SelectItem>
+                            <SelectItem value="assistente">Assistente</SelectItem>
+                            <SelectItem value="atendimento-publico">Atendimento ao Público</SelectItem>
+                            <SelectItem value="restaurantes">Restaurantes</SelectItem>
+                            <SelectItem value="balcao">Balcão</SelectItem>
+                            <SelectItem value="fotografia-video">Fotografia e Vídeo</SelectItem>
+                            <SelectItem value="ativacao-marca">Ativaçao de Marca</SelectItem>
+                            <SelectItem value="administrativo">Administrativo</SelectItem>
+                            <SelectItem value="personal-fitness">Personal Fitness</SelectItem>
+                            <SelectItem value="catering">Catering</SelectItem>
+                            <SelectItem value="hotelaria">Hotelaria</SelectItem>
+                            <SelectItem value="retalho-alimentar">Retalho Alimentar</SelectItem>
+                            <SelectItem value="retalho-moda">Retalho Moda</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+                <FormField
+                    label="Tipo de horário"
+                    tooltipContent={
+                        <div className="space-y-2">
+                            <p>
+                                <strong>Personalizado</strong> - Especifique dias e horários
+                            </p>
+                            <p>
+                                <strong>Recorrente semanalmente</strong> - Horário semanal fixo
+                            </p>
+                            <p>
+                                <strong>Full-time</strong> - 35h+ por semana
+                            </p>
+                        </div>
+                    }
+                >
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar tipo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="full-time">Full time</SelectItem>
+                            <SelectItem value="semanal">Semanal</SelectItem>
+                            <SelectItem value="personalizado">Personalizado</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+            </div>
+
+            <div className="col-span-full">
+                <FormField label="Descrição do trabalho" tooltip="Mencione todas as tarefas e requisitos necessários">
+                    <Textarea
+                        placeholder="Descreva as responsabilidades e requisitos do trabalho..."
+                        className="min-h-[120px] max-h-[200px] resize-y"
+                        style={{ resize: 'vertical' }}
+                    />
+                </FormField>
+            </div>
+        </div>
+
+        {/* Right side - Illustration */}
+        <div className="relative hidden lg:block">
+            <div className="sticky top-8 space-y-4">
+                <div className="relative rounded-2xl overflow-hidden">
+                    <img
+                        src="https://img.freepik.com/free-vector/man-search-hiring-job-online-from-laptop_1150-52728.jpg"
+                        alt="Job Search Illustration"
+                        className="w-full h-auto"
+                    />
+                </div>
+
+                {/* Single Tip Message */}
+                <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <LightbulbIcon className="h-4 w-4 text-primary" color="orange" />
+                        <p>Uma boa descrição aumenta suas chances de encontrar os melhores candidatos</p>
                     </div>
-                }
-            >
-                <Select>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Selecionar" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="select">Selecionar</SelectItem>
-                        <SelectItem value="specialized">Especializado</SelectItem>
-                        <SelectItem value="non-specialized">Não Especializado</SelectItem>
-                    </SelectContent>
-                </Select>
-            </FormField>
-            <FormField label="Titulo do Trabalho" tooltip="Título do trabalho visível para os candidatos">
-                <Input placeholder="Ex: Desenvolvedor Full Stack" />
-            </FormField>
-            <FormField
-                label="Área de trabalho"
-                tooltip="A categoria que melhor se adequa às tarefas dos colaboradores neste trabalho"
-            >
-                <Select>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Selecionar área" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="comercial">Comercial</SelectItem>
-                        <SelectItem value="empregado-mesa">Empregado de Mesa</SelectItem>
-                        <SelectItem value="tecnico-saude">Tecnico de Saude</SelectItem>
-                        <SelectItem value="explicacao">Explicação</SelectItem>
-                        <SelectItem value="programacao">Programação</SelectItem>
-                        <SelectItem value="marketing">Marketing</SelectItem>
-                        <SelectItem value="hospedeiro-evento">Hospedeiro em Evento</SelectItem>
-                        <SelectItem value="motorista-driver">Motorista Driver</SelectItem>
-                        <SelectItem value="operador-logistico">Operador Logístico</SelectItem>
-                        <SelectItem value="promotor-vendas">Promotor de Vendas</SelectItem>
-                        <SelectItem value="secretario">Secretário</SelectItem>
-                        <SelectItem value="consultor">Consultor</SelectItem>
-                        <SelectItem value="assistente">Assistente</SelectItem>
-                        <SelectItem value="atendimento-publico">Atendimento ao Público</SelectItem>
-                        <SelectItem value="restaurantes">Restaurantes</SelectItem>
-                        <SelectItem value="balcao">Balcão</SelectItem>
-                        <SelectItem value="fotografia-video">Fotografia e Vídeo</SelectItem>
-                        <SelectItem value="ativacao-marca">Ativaçao de Marca</SelectItem>
-                        <SelectItem value="administrativo">Administrativo</SelectItem>
-                        <SelectItem value="personal-fitness">Personal Fitness</SelectItem>
-                        <SelectItem value="catering">Catering</SelectItem>
-                        <SelectItem value="hotelaria">Hotelaria</SelectItem>
-                        <SelectItem value="retalho-alimentar">Retalho Alimentar</SelectItem>
-                        <SelectItem value="retalho-moda">Retalho Moda</SelectItem>
-                    </SelectContent>
-                </Select>
-            </FormField>
-            <FormField
-                label="Tipo de horário"
-                tooltipContent={
-                    <div className="space-y-2">
-                        <p>
-                            <strong>Personalizado</strong> - Especifique exatamente quais dias e horários os
-                            colaboradores precisam de trabalhar. Ideal para trabalhos pontuais
-                        </p>
-                        <p>
-                            <strong>Recorrente semanalmente</strong> - Especifique o horário semanal do colaborador, que
-                            deve se repetir durante um período de tempo. Ideal para part-times.
-                        </p>
-                        <p>
-                            <strong>Full-time</strong> - Ideal se precisar de um colaborador para aproximadamente 35h+
-                            por semana.
-                        </p>
-                    </div>
-                }
-            >
-                <Select>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Selecionar tipo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="full-time">Full time</SelectItem>
-                        <SelectItem value="semanal">Semanal</SelectItem>
-                        <SelectItem value="personalizado">Personalizado</SelectItem>
-                    </SelectContent>
-                </Select>
-            </FormField>
+                </div>
+            </div>
         </div>
     </div>
 );
 
 const CompanyDetails: FC = () => (
-    <div className="space-y-6">
-        <h2 className="text-xl font-semibold">Company Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField label="Company Name" tooltip="Enter your company's legal name">
-                <Input placeholder="Acme Inc." />
-            </FormField>
-            <FormField label="Industry" tooltip="Select your company's primary industry">
-                <Input placeholder="Technology" />
-            </FormField>
-            <FormField label="Company Size" tooltip="Number of employees">
-                <Input placeholder="50-100" />
-            </FormField>
-            <FormField label="Company Website" tooltip="Your company's website URL">
-                <Input type="url" placeholder="https://example.com" />
-            </FormField>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left side - Form Fields */}
+        <div className="space-y-6">
+            <div className="space-y-2">
+                <h2 className="text-2xl font-semibold tracking-tight">Localização</h2>
+                <p className="text-muted-foreground">
+                    Defina onde o trabalho será realizado e as restrições geográficas.
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField label="Tipologia do Trabalho" tooltip="Selecione se o trabalho é presencial ou remoto">
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="select">Selecionar</SelectItem>
+                            <SelectItem value="local">Local</SelectItem>
+                            <SelectItem value="remoto">Remoto</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+
+                <FormField label="Distrito" tooltip="Selecione o distrito onde o trabalho será realizado">
+                    <Select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecionar distrito" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="aveiro">Aveiro</SelectItem>
+                            <SelectItem value="beja">Beja</SelectItem>
+                            <SelectItem value="braga">Braga</SelectItem>
+                            <SelectItem value="braganca">Bragança</SelectItem>
+                            <SelectItem value="castelo-branco">Castelo Branco</SelectItem>
+                            <SelectItem value="coimbra">Coimbra</SelectItem>
+                            <SelectItem value="evora">Évora</SelectItem>
+                            <SelectItem value="faro">Faro</SelectItem>
+                            <SelectItem value="guarda">Guarda</SelectItem>
+                            <SelectItem value="leiria">Leiria</SelectItem>
+                            <SelectItem value="lisboa">Lisboa</SelectItem>
+                            <SelectItem value="portalegre">Portalegre</SelectItem>
+                            <SelectItem value="porto">Porto</SelectItem>
+                            <SelectItem value="santarem">Santarém</SelectItem>
+                            <SelectItem value="setubal">Setúbal</SelectItem>
+                            <SelectItem value="viana-do-castelo">Viana do Castelo</SelectItem>
+                            <SelectItem value="vila-real">Vila Real</SelectItem>
+                            <SelectItem value="viseu">Viseu</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormField>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+                <FormField label="Morada do Trabalho" tooltip="Endereço onde o trabalho será realizado">
+                    <Input placeholder="Ex: Rua do Comércio, 123" />
+                </FormField>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                    label="Raio de Geolocalização"
+                    tooltip="O quão perto o colaborador precisa estar da localização especificada para realizar clock-in/clock-out"
+                >
+                    <Input
+                        type="number"
+                        placeholder="Ex: 100"
+                        min="0"
+                        className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    />
+                </FormField>
+            </div>
+        </div>
+
+        {/* Right side - Illustration */}
+        <div className="relative hidden lg:block">
+            <div className="sticky top-8 space-y-4">
+                <div className="relative rounded-2xl overflow-hidden h-[400px]">
+                    <img
+                        src="https://img.freepik.com/free-vector/journey-route-planning-city-travel-urban-tourism-cartography-idea-girl-navigating-with-paper-map-cartoon-character-old-fashioned-orientation-tool_335657-1606.jpg"
+                        alt="Location Planning Illustration"
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+
+                {/* Single Tip Message */}
+                <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <LightbulbIcon className="h-4 w-4 text-primary" color="orange" />
+                        <p>Defina um raio adequado considerando a área do local de trabalho</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 );
 
 const JobDetails: FC = () => (
     <div className="space-y-6">
-        <h2 className="text-xl font-semibold">Job Details</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">Detalhes Adicionais</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField label="Job Title" tooltip="Your current or desired position">
-                <Input placeholder="Software Engineer" />
+            <FormField label="Experiência Necessária" tooltip="Anos de experiência requeridos">
+                <Input placeholder="Ex: 2 anos" />
             </FormField>
-            <FormField label="Department" tooltip="Which department will you work in">
-                <Input placeholder="Engineering" />
+            <FormField label="Departamento" tooltip="Departamento onde o colaborador irá trabalhar">
+                <Input placeholder="Ex: Vendas" />
             </FormField>
-            <FormField label="Experience Level" tooltip="Years of relevant experience">
-                <Input placeholder="5+ years" />
+            <FormField label="Salário Esperado" tooltip="Faixa salarial para a posição">
+                <Input placeholder="Ex: 1000€" />
             </FormField>
-            <FormField label="Expected Salary" tooltip="Your salary expectations">
-                <Input placeholder="$100,000" />
+            <FormField label="Benefícios" tooltip="Benefícios adicionais oferecidos">
+                <Input placeholder="Ex: Seguro de saúde" />
             </FormField>
         </div>
     </div>
@@ -213,22 +342,21 @@ const JobDetails: FC = () => (
 
 const Confirmation: FC = () => (
     <div className="space-y-6">
-        <h2 className="text-xl font-semibold">Review Your Information</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">Revise as Informações</h2>
         <div className="space-y-4">
             <p className="text-muted-foreground">
-                Please review your information before submitting. You will not be able to edit this information after
-                submission.
+                Por favor, revise todas as informações antes de submeter. Não será possível editar após o envio.
             </p>
             <div className="rounded-lg border p-6 space-y-4">
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                    <span className="text-muted-foreground">Name:</span>
-                    <span>John Doe</span>
-                    <span className="text-muted-foreground">Email:</span>
-                    <span>john.doe@example.com</span>
-                    <span className="text-muted-foreground">Company:</span>
-                    <span>Acme Inc.</span>
-                    <span className="text-muted-foreground">Position:</span>
-                    <span>Software Engineer</span>
+                    <span className="text-muted-foreground">Título:</span>
+                    <span>Desenvolvedor Full Stack</span>
+                    <span className="text-muted-foreground">Localização:</span>
+                    <span>Porto, Portugal</span>
+                    <span className="text-muted-foreground">Tipo:</span>
+                    <span>Remoto</span>
+                    <span className="text-muted-foreground">Experiência:</span>
+                    <span>2 anos</span>
                 </div>
             </div>
         </div>
@@ -236,10 +364,10 @@ const Confirmation: FC = () => (
 );
 
 const steps: Step[] = [
-    { title: 'Basic Information', icon: User, component: PersonalInfo, color: 'personal' },
-    { title: 'Company Details', icon: Building, component: CompanyDetails, color: 'company' },
-    { title: 'Job Details', icon: Briefcase, component: JobDetails, color: 'job' },
-    { title: 'Confirmation', icon: Send, component: Confirmation, color: 'confirmation' },
+    { title: 'Informação do Trabalho', icon: Briefcase, component: PersonalInfo, color: 'personal' },
+    { title: 'Localização', icon: MapPin, component: CompanyDetails, color: 'company' },
+    { title: 'Detalhes Adicionais', icon: ClipboardList, component: JobDetails, color: 'job' },
+    { title: 'Confirmação', icon: CheckCircle, component: Confirmation, color: 'confirmation' },
 ];
 
 const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, totalSteps }) => {
