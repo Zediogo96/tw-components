@@ -313,7 +313,7 @@ const JobDetails: FC = () => {
                                 <Button
                                     variant="outline"
                                     className={cn(
-                                        'w-full justify-start text-left font-normal',
+                                        'w-full justify-start text-left font-normal dark:bg-input/30',
                                         !startDate && 'text-muted-foreground'
                                     )}
                                 >
@@ -343,7 +343,7 @@ const JobDetails: FC = () => {
                                 <Button
                                     variant="outline"
                                     className={cn(
-                                        'w-full justify-start text-left font-normal',
+                                        'w-full justify-start text-left font-normal dark:bg-input/30',
                                         !endDate && 'text-muted-foreground'
                                     )}
                                 >
