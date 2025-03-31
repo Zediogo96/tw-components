@@ -1,14 +1,18 @@
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import {
     Briefcase,
+    Calendar as CalendarIcon,
     Check,
     CheckCircle,
-    ClipboardList,
     HelpCircle,
     LightbulbIcon,
     LucideIcon,
@@ -28,14 +32,14 @@ const stepColors = {
         border: 'rgb(var(--color-purple-200))',
     },
     job: {
-        base: 'rgb(var(--color-emerald-500))', // Emerald
-        light: 'rgb(var(--color-emerald-50))',
-        border: 'rgb(var(--color-emerald-200))',
-    },
-    confirmation: {
-        base: 'rgb(var(--color-amber-500))', // Amber
+        base: 'rgb(var(--color-amber-500))', // Orange/Amber
         light: 'rgb(var(--color-amber-50))',
         border: 'rgb(var(--color-amber-200))',
+    },
+    confirmation: {
+        base: 'rgb(var(--color-indigo-500))', // Indigo instead of green
+        light: 'rgb(var(--color-indigo-50))',
+        border: 'rgb(var(--color-indigo-200))',
     },
 };
 
@@ -320,25 +324,118 @@ const CompanyDetails: FC = () => (
     </div>
 );
 
-const JobDetails: FC = () => (
-    <div className="space-y-6">
-        <h2 className="text-2xl font-semibold tracking-tight">Detalhes Adicionais</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField label="Experiência Necessária" tooltip="Anos de experiência requeridos">
-                <Input placeholder="Ex: 2 anos" />
-            </FormField>
-            <FormField label="Departamento" tooltip="Departamento onde o colaborador irá trabalhar">
-                <Input placeholder="Ex: Vendas" />
-            </FormField>
-            <FormField label="Salário Esperado" tooltip="Faixa salarial para a posição">
-                <Input placeholder="Ex: 1000€" />
-            </FormField>
-            <FormField label="Benefícios" tooltip="Benefícios adicionais oferecidos">
-                <Input placeholder="Ex: Seguro de saúde" />
-            </FormField>
+const JobDetails: FC = () => {
+    const [startDate, setStartDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date>();
+
+    return (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left side - Form Fields */}
+            <div className="space-y-6">
+                <div className="space-y-2">
+                    <h2 className="text-2xl font-semibold tracking-tight">Horário & Vagas</h2>
+                    <p className="text-muted-foreground">
+                        Defina o horário exatamente como deseja que seja apresentado aos candidatos.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField label="Data de Início" tooltip="Data em que o trabalho começa">
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className={cn(
+                                        'w-full justify-start text-left font-normal',
+                                        !startDate && 'text-muted-foreground'
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {startDate ? (
+                                        format(startDate, 'PPP', { locale: ptBR })
+                                    ) : (
+                                        <span>Selecionar data</span>
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={startDate}
+                                    onSelect={setStartDate}
+                                    initialFocus
+                                    locale={ptBR}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </FormField>
+
+                    <FormField label="Data de Fim" tooltip="Data em que o trabalho termina">
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className={cn(
+                                        'w-full justify-start text-left font-normal',
+                                        !endDate && 'text-muted-foreground'
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {endDate ? format(endDate, 'PPP', { locale: ptBR }) : <span>Selecionar data</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={endDate}
+                                    onSelect={setEndDate}
+                                    initialFocus
+                                    locale={ptBR}
+                                    disabled={(date) => (startDate ? date < startDate : false)}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </FormField>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                        label="Número de Vagas"
+                        tooltip="Quantidade de colaboradores necessários para esta posição. Este número será visível para os candidatos e ajudará a definir suas expectativas."
+                    >
+                        <Input
+                            type="number"
+                            placeholder="Ex: 2"
+                            min="1"
+                            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        />
+                    </FormField>
+                </div>
+            </div>
+
+            {/* Right side - Illustration */}
+            <div className="relative hidden lg:block">
+                <div className="sticky top-8 space-y-4">
+                    <div className="relative rounded-2xl overflow-hidden h-[400px]">
+                        <img
+                            src="https://img.freepik.com/free-vector/appointment-booking-with-calendar-man_23-2148557562.jpg?t=st=1743412957~exp=1743416557~hmac=86198eb55246aac966ec9988f570b069f33242ac30fbd92bdf99e7fe93779b2e&w=1380"
+                            alt="Schedule Planning Illustration"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+
+                    {/* Single Tip Message */}
+                    <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <LightbulbIcon className="h-4 w-4 text-primary" />
+                            <p>Datas claras e número de vagas preciso ajudam a atrair os candidatos certos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const Confirmation: FC = () => (
     <div className="space-y-6">
@@ -366,7 +463,7 @@ const Confirmation: FC = () => (
 const steps: Step[] = [
     { title: 'Informação do Trabalho', icon: Briefcase, component: PersonalInfo, color: 'personal' },
     { title: 'Localização', icon: MapPin, component: CompanyDetails, color: 'company' },
-    { title: 'Detalhes Adicionais', icon: ClipboardList, component: JobDetails, color: 'job' },
+    { title: 'Horário & Vagas', icon: CalendarIcon, component: JobDetails, color: 'job' },
     { title: 'Confirmação', icon: CheckCircle, component: Confirmation, color: 'confirmation' },
 ];
 
