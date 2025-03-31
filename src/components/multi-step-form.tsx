@@ -14,11 +14,16 @@ import {
     Calendar as CalendarIcon,
     Check, // Add this import
     HelpCircle,
-    LightbulbIcon,
     LucideIcon,
     MapPin,
 } from 'lucide-react';
 import { FC, useState } from 'react';
+
+import LocationImage from '@/assets/multi-step-form/location.png';
+import PaymentImage from '@/assets/multi-step-form/payment.png';
+import ScheduleImage from '@/assets/multi-step-form/schedule.png';
+
+import FormIllustration from '@/components/ui/form-illustration';
 
 const stepColors = {
     personal: {
@@ -201,26 +206,11 @@ const PersonalInfo: FC = () => (
             </div>
         </div>
 
-        {/* Right side - Illustration */}
-        <div className="relative hidden lg:block">
-            <div className="sticky top-8 space-y-4">
-                <div className="relative rounded-2xl overflow-hidden">
-                    <img
-                        src="https://img.freepik.com/free-vector/man-search-hiring-job-online-from-laptop_1150-52728.jpg"
-                        alt="Job Search Illustration"
-                        className="w-full h-auto"
-                    />
-                </div>
-
-                {/* Single Tip Message */}
-                <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <LightbulbIcon className="h-4 w-4 text-primary" color="orange" />
-                        <p>Uma boa descrição aumenta suas chances de encontrar os melhores candidatos</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <FormIllustration
+            imageUrl="https://img.freepik.com/free-vector/man-search-hiring-job-online-from-laptop_1150-52728.jpg"
+            altText="Job Search Illustration"
+            tip="Uma boa descrição aumenta suas chances de encontrar os melhores candidatos"
+        />
     </div>
 );
 
@@ -296,26 +286,11 @@ const CompanyDetails: FC = () => (
             </div>
         </div>
 
-        {/* Right side - Illustration */}
-        <div className="relative hidden lg:block">
-            <div className="sticky top-8 space-y-4">
-                <div className="relative rounded-2xl overflow-hidden h-[400px]">
-                    <img
-                        src="https://img.freepik.com/free-vector/journey-route-planning-city-travel-urban-tourism-cartography-idea-girl-navigating-with-paper-map-cartoon-character-old-fashioned-orientation-tool_335657-1606.jpg"
-                        alt="Location Planning Illustration"
-                        className="w-full h-full object-cover"
-                    />
-                </div>
-
-                {/* Single Tip Message */}
-                <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <LightbulbIcon className="h-4 w-4 text-primary" color="orange" />
-                        <p>Defina um raio adequado considerando a área do local de trabalho</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <FormIllustration
+            imageUrl={LocationImage}
+            altText="Location Planning Illustration"
+            tip="Defina um raio adequado considerando a área do local de trabalho"
+        />
     </div>
 );
 
@@ -405,26 +380,11 @@ const JobDetails: FC = () => {
                 </div>
             </div>
 
-            {/* Right side - Illustration */}
-            <div className="relative hidden lg:block">
-                <div className="sticky top-8 space-y-4">
-                    <div className="relative rounded-2xl overflow-hidden h-[400px]">
-                        <img
-                            src="https://img.freepik.com/free-vector/appointment-booking-with-calendar-man_23-2148557562.jpg?t=st=1743412957~exp=1743416557~hmac=86198eb55246aac966ec9988f570b069f33242ac30fbd92bdf99e7fe93779b2e&w=1380"
-                            alt="Schedule Planning Illustration"
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-
-                    {/* Single Tip Message */}
-                    <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <LightbulbIcon className="h-4 w-4 text-primary" />
-                            <p>Datas claras e número de vagas preciso ajudam a atrair os candidatos certos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <FormIllustration
+                imageUrl={ScheduleImage}
+                altText="Schedule Planning Illustration"
+                tip="Datas claras e número de vagas preciso ajudam a atrair os candidatos certos"
+            />
         </div>
     );
 };
@@ -507,26 +467,11 @@ const Compensation: FC = () => (
             </div>
         </div>
 
-        {/* Right side - Illustration */}
-        <div className="relative hidden lg:block">
-            <div className="sticky top-8 space-y-4">
-                <div className="relative rounded-2xl overflow-hidden h-[400px]">
-                    <img
-                        src="https://img.freepik.com/free-vector/mobile-banking-concept-illustration_114360-13928.jpg?t=st=1743413893~exp=1743417493~hmac=7a00ccc46b7b265bafae2fd83cfa3e31bb8cc9fb9141306ac7b9ddba51fcb033&w=1380"
-                        alt="Compensation and Benefits Illustration"
-                        className="w-full h-full object-cover"
-                    />
-                </div>
-
-                {/* Single Tip Message */}
-                <div className="bg-card/50 backdrop-blur-sm rounded-xl p-4 border shadow-sm">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <LightbulbIcon className="h-4 w-4 text-primary" color="orange" />
-                        <p>Seja transparente sobre a remuneração para atrair os melhores candidatos</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <FormIllustration
+            imageUrl={PaymentImage}
+            altText="Compensation and Benefits Illustration"
+            tip="Seja transparente sobre a remuneração e benefícios oferecidos"
+        />
     </div>
 );
 
@@ -649,66 +594,64 @@ const MultiStepForm: FC = () => {
     };
 
     return (
-        <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-            <section className="w-full bg-card text-card-foreground rounded-xl shadow-lg p-8 sm:p-10 lg:p-14 min-h-[800px] flex flex-col border">
-                <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
-                    <div className="relative h-[2.25rem] sm:h-[2.5rem]">
-                        <h1
-                            key={displayedTitle}
-                            className={cn(
-                                'text-2xl sm:text-3xl font-bold shrink-0  w-full',
-                                isAnimating ? 'animate-fade-out-up' : 'animate-fade-in-up'
-                            )}
-                        >
-                            {displayedTitle}
-                        </h1>
-                    </div>
-
-                    <nav className="w-full lg:w-auto" aria-label="Form Steps">
-                        <div className="flex items-center justify-between">
-                            {steps.map((step, index) => (
-                                <StepIndicator
-                                    key={index}
-                                    step={step}
-                                    index={index}
-                                    currentStep={currentStep}
-                                    totalSteps={steps.length}
-                                />
-                            ))}
-                        </div>
-                    </nav>
-                </div>
-
-                {/* Form Content with Animation */}
-                <main className="flex-1 relative">
-                    <div
-                        key={displayedStep}
+        <section className="w-full bg-background text-card-foreground rounded-xl shadow-lg p-6 sm:p-8 lg:p-14 min-h-[750px] flex flex-col border relative z-10 backdrop-blur-sm">
+            <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
+                <div className="relative h-[2.25rem] sm:h-[2.5rem]">
+                    <h1
+                        key={displayedTitle}
                         className={cn(
-                            'absolute w-full transition-all duration-200',
-                            isAnimating
-                                ? direction === 'forward'
-                                    ? 'animate-fade-out-left'
-                                    : 'animate-fade-out-right'
-                                : direction === 'forward'
-                                ? 'animate-fade-in-right'
-                                : 'animate-fade-in-left'
+                            'text-2xl sm:text-3xl font-bold shrink-0  w-full',
+                            isAnimating ? 'animate-fade-out-up' : 'animate-fade-in-up'
                         )}
                     >
-                        <CurrentStepComponent />
-                    </div>
-                </main>
+                        {displayedTitle}
+                    </h1>
+                </div>
 
-                {/* Navigation Buttons */}
-                <footer className="flex justify-between pt-8 border-t">
-                    <Button variant="secondary" onClick={handlePrevious} disabled={currentStep === 0 || isAnimating}>
-                        Previous
-                    </Button>
-                    <Button onClick={handleNext} disabled={currentStep === steps.length - 1 || isAnimating}>
-                        {currentStep === steps.length - 2 ? 'Finish' : 'Next'}
-                    </Button>
-                </footer>
-            </section>
-        </div>
+                <nav className="w-full lg:w-auto" aria-label="Form Steps">
+                    <div className="flex items-center justify-between">
+                        {steps.map((step, index) => (
+                            <StepIndicator
+                                key={index}
+                                step={step}
+                                index={index}
+                                currentStep={currentStep}
+                                totalSteps={steps.length}
+                            />
+                        ))}
+                    </div>
+                </nav>
+            </div>
+
+            {/* Form Content with Animation */}
+            <main className="flex-1 relative">
+                <div
+                    key={displayedStep}
+                    className={cn(
+                        'absolute w-full transition-all duration-200',
+                        isAnimating
+                            ? direction === 'forward'
+                                ? 'animate-fade-out-left'
+                                : 'animate-fade-out-right'
+                            : direction === 'forward'
+                            ? 'animate-fade-in-right'
+                            : 'animate-fade-in-left'
+                    )}
+                >
+                    <CurrentStepComponent />
+                </div>
+            </main>
+
+            {/* Navigation Buttons */}
+            <footer className="flex justify-between pt-8 border-t">
+                <Button variant="secondary" onClick={handlePrevious} disabled={currentStep === 0 || isAnimating}>
+                    Previous
+                </Button>
+                <Button onClick={handleNext} disabled={currentStep === steps.length - 1 || isAnimating}>
+                    {currentStep === steps.length - 2 ? 'Finish' : 'Next'}
+                </Button>
+            </footer>
+        </section>
     );
 };
 
