@@ -90,12 +90,9 @@ const PersonalInfo: FC = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left side - Form Fields */}
         <div className="space-y-6">
-            <div className="space-y-2">
-                <h2 className="text-2xl font-semibold tracking-tight">Informação do Trabalho</h2>
-                <p className="text-muted-foreground">
-                    Preencha os detalhes básicos do trabalho que você está oferecendo.
-                </p>
-            </div>
+            <p className="text-muted-foreground pb-3.5">
+                Preencha os detalhes básicos do trabalho que você está oferecendo.
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
@@ -231,12 +228,9 @@ const CompanyDetails: FC = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left side - Form Fields */}
         <div className="space-y-6">
-            <div className="space-y-2">
-                <h2 className="text-2xl font-semibold tracking-tight">Localização</h2>
-                <p className="text-muted-foreground">
-                    Defina onde o trabalho será realizado e as restrições geográficas.
-                </p>
-            </div>
+            <p className="text-muted-foreground pb-3.5">
+                Defina onde o trabalho será realizado e as restrições geográficas.
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField label="Tipologia do Trabalho" tooltip="Selecione se o trabalho é presencial ou remoto">
@@ -333,12 +327,9 @@ const JobDetails: FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left side - Form Fields */}
             <div className="space-y-6">
-                <div className="space-y-2">
-                    <h2 className="text-2xl font-semibold tracking-tight">Horário & Vagas</h2>
-                    <p className="text-muted-foreground">
-                        Defina o horário exatamente como deseja que seja apresentado aos candidatos.
-                    </p>
-                </div>
+                <p className="text-muted-foreground pb-3.5">
+                    Defina o horário exatamente como deseja que seja apresentado aos candidatos.
+                </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField label="Data de Início" tooltip="Data em que o trabalho começa">
@@ -442,12 +433,9 @@ const Compensation: FC = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left side - Form Fields */}
         <div className="space-y-6">
-            <div className="space-y-2">
-                <h2 className="text-2xl font-semibold tracking-tight">Remuneração e Benefícios</h2>
-                <p className="text-muted-foreground">
-                    Defina os detalhes de pagamento e benefícios oferecidos para esta posição.
-                </p>
-            </div>
+            <p className="text-muted-foreground pb-3.5">
+                Defina os detalhes de pagamento e benefícios oferecidos para esta posição.
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField label="Frequência de Pagamento">
@@ -543,10 +531,10 @@ const Compensation: FC = () => (
 );
 
 const steps: Step[] = [
-    { title: 'Informação do Trabalho', icon: Briefcase, component: PersonalInfo, color: 'personal' },
+    { title: 'Informações Básicas', icon: Briefcase, component: PersonalInfo, color: 'personal' },
     { title: 'Localização', icon: MapPin, component: CompanyDetails, color: 'company' },
     { title: 'Horário & Vagas', icon: CalendarIcon, component: JobDetails, color: 'job' },
-    { title: 'Remuneração e Benefícios', icon: BanknoteIcon, component: Compensation, color: 'compensation' }, // Updated name
+    { title: 'Remuneração', icon: BanknoteIcon, component: Compensation, color: 'compensation' }, // Updated name
 ];
 
 const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, totalSteps }) => {
@@ -594,14 +582,11 @@ const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, total
                 >
                     <div className={cn('transition-transform duration-300', isActive && 'animate-iconSpin')}>
                         {isComplete ? <Check size={22} /> : <step.icon size={22} />}{' '}
-                        {/* increased icon size from 20 to 22 */}
                     </div>
                 </div>
 
                 {isActive && (
                     <div className="ml-4 overflow-hidden">
-                        {' '}
-                        {/* increased from ml-3 to ml-4 */}
                         <div className="animate-slideIn">
                             <p className="text-sm text-muted-foreground">
                                 Step {index + 1} / {totalSteps}
@@ -614,7 +599,7 @@ const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, total
 
             {index < totalSteps - 1 && (
                 <div
-                    className={cn('h-[2px] w-8 mx-3 transition-all duration-500')} // increased spacing from mx-2 to mx-3
+                    className={cn('h-[2px] w-8 mx-3 transition-all duration-500')}
                     style={{
                         backgroundColor:
                             index < currentStep ? stepColors[steps[index + 1].color].border : 'rgb(229 231 235)',
@@ -667,7 +652,6 @@ const MultiStepForm: FC = () => {
         <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full bg-card text-card-foreground rounded-xl shadow-lg p-8 sm:p-10 lg:p-14 min-h-[800px] flex flex-col border">
                 <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
-                    {/* Animated title */}
                     <div className="relative h-[2.25rem] sm:h-[2.5rem]">
                         <h1
                             key={displayedTitle}
