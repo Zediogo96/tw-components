@@ -22,7 +22,7 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                 className={cn(
                     'flex items-center transition-all duration-500 relative',
                     isActive && 'animate-stepExpand pl-0',
-                    isActive && 'rounded-full pr-6 shadow-lg animate-pulseLight' // increased right padding from pr-4 to pr-6
+                    isActive && 'rounded-full pr-6 shadow-lg animate-pulseLight'
                 )}
                 style={
                     isActive
@@ -33,14 +33,17 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                               borderColor: stepColor.border,
                               borderLeftWidth: 0,
                               paddingLeft: '0',
-                              height: '48px', // increased from 44px to 48px
+                              height: '48px',
                           }
                         : undefined
                 }
             >
                 <div
                     className={cn(
-                        'w-11 h-11 rounded-full flex items-center justify-center transition-all duration-500', // increased from w-10 h-10 to w-11 h-11
+                        'w-11 h-11 rounded-full flex items-center justify-center',
+                        'transition-all duration-300 ease-out',
+                        'group cursor-pointer',
+                        'hover:shadow-md',
                         isComplete && 'bg-emerald-100 text-emerald-600 animate-checkmark',
                         isActive && 'text-white animate-iconPop',
                         !isComplete && !isActive && 'bg-gray-100 text-gray-400',
@@ -54,8 +57,50 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                             : undefined
                     }
                 >
-                    <div className={cn('transition-transform duration-300', isActive && 'animate-iconSpin')}>
-                        {isComplete ? <Check size={22} /> : <step.icon size={22} />}{' '}
+                    {/* Background spotlight effect */}
+                    <div
+                        className={cn(
+                            'absolute inset-0 rounded-full opacity-0',
+                            'bg-white/10',
+                            'transition-opacity duration-300',
+                            'group-hover:opacity-100',
+                            'group-hover:animate-spotlight-pulse'
+                        )}
+                    />
+
+                    {/* Icon container */}
+                    <div
+                        className={cn(
+                            'relative',
+                            'transition-all duration-200',
+                            'group-hover:animate-micro-bounce'
+                        )}
+                    >
+                        <div className={cn(
+                            'transition-all duration-300',
+                            'group-hover:scale-110 group-hover:rotate-[12deg]',
+                            isActive && 'animate-iconSpin'
+                        )}>
+                            {isComplete ? (
+                                <Check
+                                    size={22}
+                                    className={cn(
+                                        'transition-all duration-300',
+                                        'group-hover:text-emerald-400',
+                                        'group-hover:animate-micro-wiggle'
+                                    )}
+                                />
+                            ) : (
+                                <step.icon
+                                    size={22}
+                                    className={cn(
+                                        'transition-all duration-300',
+                                        'group-hover:text-primary/90',
+                                        'group-hover:animate-micro-wiggle'
+                                    )}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -73,7 +118,11 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
 
             {index < totalSteps - 1 && (
                 <div
-                    className={cn('h-[2px] w-8 mx-3 transition-all duration-500')}
+                    className={cn(
+                        'h-[2px] w-8 mx-3',
+                        'transition-all duration-500',
+                        'group-hover:bg-primary/20'
+                    )}
                     style={{
                         backgroundColor:
                             index < currentStep ? stepColors[steps[index + 1].color].border : 'rgb(229 231 235)',
