@@ -5,6 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { defaultJobFormData, steps } from './constants';
 import { StepIndicator } from './step-indicator';
 import { JobFormData } from './types';
+import { ChevronLeft, ChevronRight, Send } from 'lucide-react';
 
 const MultiStepForm: FC = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -63,7 +64,7 @@ const MultiStepForm: FC = () => {
     return (
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full">
-                <section className="w-full bg-background text-card-foreground rounded-xl shadow-lg p-6 sm:p-8 lg:p-14 min-h-[750px] flex flex-col border relative z-10 backdrop-blur-sm">
+                <section className="w-full bg-background text-card-foreground rounded-xl p-6 sm:p-8 lg:p-14 min-h-[750px] flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
                     <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
                         <div className="relative h-[2.25rem] sm:h-[2.5rem]">
                             <h1
@@ -112,24 +113,44 @@ const MultiStepForm: FC = () => {
                     </main>
 
                     {/* Navigation Buttons */}
-                    <footer className="flex justify-between pt-8 border-t">
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            onClick={handlePrevious}
-                            disabled={currentStep === 0 || isAnimating}
-                        >
-                            Previous
-                        </Button>
-                        {currentStep === steps.length - 1 ? (
-                            <Button type="submit" disabled={isAnimating}>
-                                Submit
+                    <footer className="flex items-center justify-between pt-8 border-t">
+                        <div className="flex items-center gap-2">
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                onClick={handlePrevious}
+                                disabled={currentStep === 0 || isAnimating}
+                                className="gap-2"
+                            >
+                                <ChevronLeft className="w-4 h-4" />
+                                Previous
                             </Button>
-                        ) : (
-                            <Button type="button" onClick={handleNext} disabled={isAnimating}>
-                                Next
-                            </Button>
-                        )}
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                            {currentStep < steps.length - 1 && (
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => methods.reset()}
+                                    disabled={isAnimating}
+                                >
+                                    Clear Form
+                                </Button>
+                            )}
+
+                            {currentStep === steps.length - 1 ? (
+                                <Button type="submit" disabled={isAnimating} className="gap-2">
+                                    Submit Form
+                                    <Send className="w-4 h-4" />
+                                </Button>
+                            ) : (
+                                <Button type="button" onClick={handleNext} disabled={isAnimating} className="gap-2">
+                                    Next
+                                    <ChevronRight className="w-4 h-4" />
+                                </Button>
+                            )}
+                        </div>
                     </footer>
                 </section>
             </form>

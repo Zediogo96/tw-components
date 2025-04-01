@@ -36,10 +36,10 @@ export const steps: Step[] = [
 ];
 
 export const defaultJobFormData: JobFormData = {
-    specialization: 'specialized',
+    specialization: undefined,
     jobTitle: '',
     workArea: '',
-    scheduleType: 'full-time',
+    scheduleType: undefined,
     workType: 'local',
     startDate: undefined,
     endDate: undefined,

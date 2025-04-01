@@ -18,10 +18,10 @@ export interface StepColors {
 
 export interface JobFormData {
     // Personal Info step
-    specialization: 'specialized' | 'non-specialized';
+    specialization?: 'specialized' | 'non-specialized';
     jobTitle: string;
     workArea: string;
-    scheduleType: 'full-time' | 'semanal' | 'personalizado';
+    scheduleType?: 'full-time' | 'semanal' | 'personalizado';
     jobDescription?: string;
 
     // Company Details step
