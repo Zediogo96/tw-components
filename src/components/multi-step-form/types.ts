@@ -33,7 +33,7 @@ export interface JobFormData {
     // Job Details step
     startDate?: Date;
     endDate?: Date;
-    numberOfPositions?: number;
+    numberOfPositions: number;
 
     // Compensation step
     paymentFrequency?: 'monthly' | 'hourly' | 'per-shift' | 'agreement';

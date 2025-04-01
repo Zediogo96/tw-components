@@ -43,7 +43,7 @@ export const defaultJobFormData: JobFormData = {
     workType: 'local',
     startDate: undefined,
     endDate: undefined,
-    numberOfPositions: undefined,
+    numberOfPositions: 1,
     paymentFrequency: 'monthly',
     salary: undefined,
     benefits: '',
