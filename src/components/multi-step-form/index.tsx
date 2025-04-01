@@ -1,11 +1,21 @@
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ChevronLeft, ChevronRight, RotateCcw, Send } from 'lucide-react';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { defaultJobFormData, steps } from './constants';
 import { StepIndicator } from './step-indicator';
 import { JobFormData } from './types';
-import { ChevronLeft, ChevronRight, Send } from 'lucide-react';
 
 const MultiStepForm: FC = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -13,11 +23,25 @@ const MultiStepForm: FC = () => {
     const [isAnimating, setIsAnimating] = useState(false);
     const [displayedStep, setDisplayedStep] = useState(currentStep);
     const [displayedTitle, setDisplayedTitle] = useState(steps[currentStep].title);
+    const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
 
     const methods = useForm<JobFormData>({
         defaultValues: defaultJobFormData,
-        mode: 'onChange', // This will validate the form on every change
+        mode: 'onChange',
     });
+
+    const handleReset = () => {
+        methods.reset(defaultJobFormData);
+        setDirection('backward');
+        setIsAnimating(true);
+        setTimeout(() => {
+            setDisplayedStep(0);
+            setDisplayedTitle(steps[0].title);
+            setCurrentStep(0);
+            setIsAnimating(false);
+        }, 200);
+        setIsResetDialogOpen(false);
+    };
 
     const CurrentStepComponent = steps[displayedStep].component;
 
@@ -64,6 +88,22 @@ const MultiStepForm: FC = () => {
     return (
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full">
+                <AlertDialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Resetar formulário?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Esta ação não pode ser desfeita. Todos os dados preenchidos serão perdidos e você
+                                voltará para o primeiro passo.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleReset}>Continuar</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
                 <section className="w-full bg-background text-card-foreground rounded-xl p-6 sm:p-8 lg:p-14 min-h-[750px] flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
                     <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
                         <div className="relative h-[2.25rem] sm:h-[2.5rem]">
@@ -128,16 +168,16 @@ const MultiStepForm: FC = () => {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            {currentStep < steps.length - 1 && (
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => methods.reset()}
-                                    disabled={isAnimating}
-                                >
-                                    Clear Form
-                                </Button>
-                            )}
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setIsResetDialogOpen(true)}
+                                disabled={isAnimating}
+                                className="gap-2"
+                            >
+                                <RotateCcw className="w-4 h-4" />
+                                Reset Form
+                            </Button>
 
                             {currentStep === steps.length - 1 ? (
                                 <Button type="submit" disabled={isAnimating} className="gap-2">
