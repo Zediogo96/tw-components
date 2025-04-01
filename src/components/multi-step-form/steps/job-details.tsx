@@ -45,9 +45,10 @@ const JobDetails: FC = () => {
                                 required: 'Data de início é obrigatória',
                                 validate: {
                                     notPast: (date) =>
-                                        (isBefore(today, date) || isEqual(today, date)) ||
-                                        'Data de início deve ser hoje ou uma data futura'
-                                }
+                                        (!!date && isBefore(today, date)) ||
+                                        (!!date && isEqual(today, date)) ||
+                                        'Data de início deve ser hoje ou uma data futura',
+                                },
                             }}
                             render={({ field }) => (
                                 <Popover>
@@ -95,9 +96,12 @@ const JobDetails: FC = () => {
                                 required: 'Data de fim é obrigatória',
                                 validate: {
                                     afterStart: (date) =>
-                                        !startDate || isBefore(startDate, date) ||
-                                        'Data de fim deve ser posterior à data de início'
-                                }
+                                        !startDate ||
+                                        (!!startDate &&
+                                            !!date &&
+                                            (isEqual(startDate, date) || isBefore(startDate, date))) ||
+                                        'Data de fim deve ser igual ou posterior à data de início',
+                                },
                             }}
                             render={({ field }) => (
                                 <Popover>
@@ -124,7 +128,7 @@ const JobDetails: FC = () => {
                                             onSelect={field.onChange}
                                             initialFocus
                                             locale={ptBR}
-                                            disabled={(date) => startDate ? isBefore(date, startDate) : false}
+                                            disabled={(date) => (startDate ? isBefore(date, startDate) : false)}
                                         />
                                     </PopoverContent>
                                 </Popover>
@@ -148,12 +152,12 @@ const JobDetails: FC = () => {
                                 required: 'Número de vagas é obrigatório',
                                 min: {
                                     value: 1,
-                                    message: 'Deve haver pelo menos 1 vaga'
+                                    message: 'Deve haver pelo menos 1 vaga',
                                 },
                                 max: {
                                     value: 999,
-                                    message: 'Número máximo de vagas é 999'
-                                }
+                                    message: 'Número máximo de vagas é 999',
+                                },
                             }}
                             render={({ field }) => (
                                 <Input
