@@ -5,19 +5,25 @@ import { FC, ReactNode } from 'react';
 interface FormFieldProps {
     label: string;
     tooltip?: ReactNode;
-    tooltipContent?: ReactNode;
     children: ReactNode;
-    required?: boolean;  // Added required prop
+    required?: boolean;
+    error?: string;
 }
 
-export const FormField: FC<FormFieldProps> = ({ label, tooltip, tooltipContent, children, required }) => (
+export const FormField: FC<FormFieldProps> = ({
+    label,
+    tooltip,
+    children,
+    required,
+    error
+}) => (
     <div className="space-y-2">
         <div className="flex items-center gap-2">
             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 {label}
                 {required && <span className="text-destructive ml-1">*</span>}
             </label>
-            {(tooltipContent || tooltip) && (
+            {tooltip && (
                 <HoverCard>
                     <HoverCardTrigger asChild>
                         <div className="cursor-help">
@@ -25,11 +31,14 @@ export const FormField: FC<FormFieldProps> = ({ label, tooltip, tooltipContent, 
                         </div>
                     </HoverCardTrigger>
                     <HoverCardContent className="w-80">
-                        <div className="space-y-2 text-sm">{tooltipContent || tooltip}</div>
+                        <div className="space-y-2 text-sm">{tooltip}</div>
                     </HoverCardContent>
                 </HoverCard>
             )}
         </div>
         {children}
+        {error && (
+            <p className="text-sm text-destructive">{error}</p>
+        )}
     </div>
 );

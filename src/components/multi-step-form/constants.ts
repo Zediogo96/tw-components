@@ -1,9 +1,9 @@
-import { Briefcase, MapPin, Calendar as CalendarIcon, BanknoteIcon } from 'lucide-react';
-import PersonalInfo from './steps/personal-info';
+import { BanknoteIcon, Briefcase, Calendar as CalendarIcon, MapPin } from 'lucide-react';
 import CompanyDetails from './steps/company-details';
-import JobDetails from './steps/job-details';
 import Compensation from './steps/compensation';
-import { Step, StepColors } from './types';
+import JobDetails from './steps/job-details';
+import PersonalInfo from './steps/personal-info';
+import { JobFormData, Step, StepColors } from './types';
 
 export const stepColors: StepColors = {
     personal: {
@@ -34,3 +34,19 @@ export const steps: Step[] = [
     { title: 'Horário & Vagas', icon: CalendarIcon, component: JobDetails, color: 'job' },
     { title: 'Remuneração', icon: BanknoteIcon, component: Compensation, color: 'compensation' },
 ];
+
+export const defaultJobFormData: JobFormData = {
+    specialization: 'specialized',
+    jobTitle: '',
+    workArea: '',
+    scheduleType: 'full-time',
+    workType: 'local',
+    startDate: undefined,
+    endDate: undefined,
+    numberOfPositions: undefined,
+    paymentFrequency: 'monthly',
+    salary: undefined,
+    benefits: '',
+    paymentMethod: 'unilinkr',
+    candidateType: 'public',
+};
