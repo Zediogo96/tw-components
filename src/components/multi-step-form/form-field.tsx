@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { HelpCircle } from 'lucide-react';
 import { FC, ReactNode } from 'react';
@@ -10,13 +11,7 @@ interface FormFieldProps {
     error?: string;
 }
 
-export const FormField: FC<FormFieldProps> = ({
-    label,
-    tooltip,
-    children,
-    required,
-    error
-}) => (
+export const FormField: FC<FormFieldProps> = ({ label, tooltip, children, required, error }) => (
     <div className="space-y-2">
         <div className="flex items-center gap-2">
             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -36,9 +31,16 @@ export const FormField: FC<FormFieldProps> = ({
                 </HoverCard>
             )}
         </div>
-        {children}
+        <div className={cn(
+            "transition-all duration-300",
+            error && "animate-shake"
+        )}>
+            {children}
+        </div>
         {error && (
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-sm text-destructive animate-fade-in-up">
+                {error}
+            </p>
         )}
     </div>
 );
