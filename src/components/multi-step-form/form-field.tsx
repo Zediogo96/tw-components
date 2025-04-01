@@ -7,13 +7,15 @@ interface FormFieldProps {
     tooltip?: ReactNode;
     tooltipContent?: ReactNode;
     children: ReactNode;
+    required?: boolean;  // Added required prop
 }
 
-export const FormField: FC<FormFieldProps> = ({ label, tooltip, tooltipContent, children }) => (
+export const FormField: FC<FormFieldProps> = ({ label, tooltip, tooltipContent, children, required }) => (
     <div className="space-y-2">
         <div className="flex items-center gap-2">
             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 {label}
+                {required && <span className="text-destructive ml-1">*</span>}
             </label>
             {(tooltipContent || tooltip) && (
                 <HoverCard>

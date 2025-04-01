@@ -14,6 +14,7 @@ const PersonalInfo: FC = () => (
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
+                    required
                     label="Grau de especialização"
                     tooltipContent={
                         <div className="space-y-2">
@@ -37,7 +38,7 @@ const PersonalInfo: FC = () => (
                         </SelectContent>
                     </Select>
                 </FormField>
-                <FormField label="Titulo do Trabalho" tooltip="Título do trabalho visível para os candidatos">
+                <FormField required label="Titulo do Trabalho" tooltip="Título do trabalho visível para os candidatos">
                     <Input placeholder="Ex: Desenvolvedor Full Stack" />
                 </FormField>
             </div>
@@ -45,6 +46,7 @@ const PersonalInfo: FC = () => (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                     label="Área de trabalho"
+                    required
                     tooltip="A categoria que melhor se adequa às tarefas dos colaboradores"
                 >
                     <Select>
