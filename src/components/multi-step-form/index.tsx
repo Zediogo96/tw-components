@@ -80,6 +80,49 @@ const MultiStepForm: FC = () => {
         }
     };
 
+    const navigateToStep = async (stepIndex: number) => {
+        // Don't do anything if we're already animating
+        if (isAnimating) return;
+
+        // Validate all fields up to the target step
+        const fieldsToValidate = steps
+            .slice(0, stepIndex)
+            .flatMap(step => {
+                // You'll need to define which fields belong to each step
+                switch (step.color) {
+                    case 'personal':
+                        return ['jobTitle', 'workArea', 'specialization', 'scheduleType'];
+                    case 'company':
+                        return ['workType', 'district', 'workAddress'];
+                    case 'job':
+                        return ['startDate', 'endDate', 'numberOfPositions'];
+                    case 'compensation':
+                        return ['paymentFrequency', 'paymentMethod'];
+                    default:
+                        return [];
+                }
+            });
+
+        const isValid = await methods.trigger(fieldsToValidate);
+
+        if (!isValid) {
+            // Show error message or handle invalid form
+            return;
+        }
+
+        // Determine animation direction
+        const newDirection = stepIndex > currentStep ? 'forward' : 'backward';
+        setDirection(newDirection);
+        setIsAnimating(true);
+
+        setTimeout(() => {
+            setDisplayedStep(stepIndex);
+            setDisplayedTitle(steps[stepIndex].title);
+            setCurrentStep(stepIndex);
+            setIsAnimating(false);
+        }, 200);
+    };
+
     const onSubmit = (data: JobFormData) => {
         console.log('Form submitted:', data);
         // Handle form submission
@@ -87,7 +130,7 @@ const MultiStepForm: FC = () => {
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full min-h-[95vh] pb-[10vh] md:pb-0">
+            <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full min-h-[100dvh] md:min-h-0 flex items-center justify-center py-4 px-4 md:py-8 md:px-6">
                 <AlertDialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
                     <AlertDialogContent>
                         <AlertDialogHeader>
@@ -104,7 +147,7 @@ const MultiStepForm: FC = () => {
                     </AlertDialogContent>
                 </AlertDialog>
 
-                <section className="m-3 md:max-w-7xl bg-background  text-card-foreground rounded-xl p-3 sm:p-4 lg:p-14 flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
+                <section className="w-full md:w-auto max-w-[95vw] md:max-w-7xl bg-background text-card-foreground rounded-xl p-3 sm:p-4 lg:p-14 flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
                     <div className="flex flex-col-reverse lg:flex-row justify-between items-start gap-8 mb-4 md:mb-14">
                         <div className="relative h-[2.25rem] sm:h-[2.5rem]">
                             <h1
@@ -127,6 +170,7 @@ const MultiStepForm: FC = () => {
                                         index={index}
                                         currentStep={currentStep}
                                         totalSteps={steps.length}
+                                        onStepClick={navigateToStep}
                                     />
                                 ))}
                             </div>
@@ -180,7 +224,7 @@ const MultiStepForm: FC = () => {
 
                             {currentStep === steps.length - 1 ? (
                                 <Button type="submit" disabled={isAnimating} className="gap-2">
-                                    <span>Submit </span>
+                                    <span>Submit Form</span>
                                     <Send className="w-4 h-4" />
                                 </Button>
                             ) : (

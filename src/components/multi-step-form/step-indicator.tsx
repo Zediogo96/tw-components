@@ -9,21 +9,34 @@ interface StepIndicatorProps {
     index: number;
     currentStep: number;
     totalSteps: number;
+    onStepClick: (index: number) => void;
 }
 
-export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, totalSteps }) => {
+export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep, totalSteps, onStepClick }) => {
     const isComplete = index < currentStep;
     const isActive = index === currentStep;
     const stepColor = stepColors[step.color];
 
+    const handleClick = () => {
+        // Only allow clicking on completed steps or the next available step
+        if (index <= currentStep + 1 && !isActive) {
+            onStepClick(index);
+        }
+    };
+
     return (
-        <div className="flex items-center flex-col mt-5 md:mt-0 md:flex-row">
+        <div className="flex items-center flex-col mt-5 md:flex-row">
             <div
+                onClick={handleClick}
                 className={cn(
                     'flex items-center transition-all duration-500 relative',
                     'w-full md:w-auto',
                     isActive && 'animate-stepExpand pl-0',
-                    isActive && 'rounded-full pr-2 md:pr-8 shadow-lg animate-pulseLight'
+                    isActive && 'rounded-full pr-2 md:pr-8 shadow-lg animate-pulseLight',
+                    // Add cursor styles based on clickability
+                    index <= currentStep + 1 && !isActive ? 'cursor-pointer' : 'cursor-default',
+                    // Optional: Add hover effect for clickable steps
+                    index <= currentStep + 1 && !isActive && 'hover:opacity-80'
                 )}
                 style={
                     isActive
