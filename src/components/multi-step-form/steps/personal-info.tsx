@@ -14,14 +14,14 @@ const PersonalInfo: FC = () => {
     } = useFormContext<JobFormData>();
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
             {/* Left side - Form Fields */}
-            <div className="space-y-6">
-                <p className="text-muted-foreground pb-3.5">
+            <div className="space-y-4 md:space-y-6">
+                <p className="text-sm md:text-base text-muted-foreground pb-2 md:pb-3.5">
                     Preencha os detalhes básicos do trabalho que está a oferecer.
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6">
                     <FormField
                         required
                         label="Grau de especialização"
@@ -43,7 +43,7 @@ const PersonalInfo: FC = () => {
                             rules={{ required: 'Grau de especialização é obrigatório' }}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-10 md:h-auto">
                                         <SelectValue placeholder="Selecionar" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -61,6 +61,7 @@ const PersonalInfo: FC = () => {
                         tooltip="Título do trabalho visível para os candidatos"
                     >
                         <Input
+                            className="h-10 md:h-auto"
                             placeholder="Ex: Desenvolvedor Full Stack"
                             {...register('jobTitle', {
                                 required: 'Título do trabalho é obrigatório',
@@ -73,7 +74,7 @@ const PersonalInfo: FC = () => {
                     </FormField>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6">
                     <FormField
                         label="Área de trabalho"
                         required
@@ -86,10 +87,10 @@ const PersonalInfo: FC = () => {
                             rules={{ required: 'Área de trabalho é obrigatória' }}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-10 md:h-auto">
                                         <SelectValue placeholder="Selecionar área" />
                                     </SelectTrigger>
-                                    <SelectContent>
+                                    <SelectContent className="max-h-52 overflow-y-auto">
                                         <SelectItem value="comercial">Comercial</SelectItem>
                                         <SelectItem value="empregado-mesa">Empregado de Mesa</SelectItem>
                                         <SelectItem value="tecnico-saude">Tecnico de Saude</SelectItem>
@@ -143,7 +144,7 @@ const PersonalInfo: FC = () => {
                             rules={{ required: 'Tipo de horário é obrigatório' }}
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-10 md:h-auto">
                                         <SelectValue placeholder="Selecionar tipo" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -157,7 +158,7 @@ const PersonalInfo: FC = () => {
                     </FormField>
                 </div>
 
-                <div className="col-span-full">
+                <div className="w-full">
                     <FormField
                         label="Descrição do trabalho"
                         error={errors.jobDescription?.message}
@@ -165,7 +166,7 @@ const PersonalInfo: FC = () => {
                     >
                         <Textarea
                             placeholder="Descreva as responsabilidades e requisitos do trabalho..."
-                            className="min-h-[120px] max-h-[200px] resize-y"
+                            className="min-h-[100px] md:min-h-[120px] max-h-[200px] resize-y"
                             style={{ resize: 'vertical' }}
                             {...register('jobDescription', {
                                 minLength: {
@@ -178,11 +179,14 @@ const PersonalInfo: FC = () => {
                 </div>
             </div>
 
-            <FormIllustration
-                imageUrl="https://img.freepik.com/free-vector/man-search-hiring-job-online-from-laptop_1150-52728.jpg"
-                altText="Job Search Illustration"
-                tip="Uma boa descrição aumenta suas chances de encontrar os melhores candidatos"
-            />
+            {/* Right side - Illustration */}
+            <div className="hidden md:block lg:block">
+                <FormIllustration
+                    imageUrl="https://img.freepik.com/free-vector/man-search-hiring-job-online-from-laptop_1150-52728.jpg"
+                    altText="Job Search Illustration"
+                    tip="Uma boa descrição aumenta suas chances de encontrar os melhores candidatos"
+                />
+            </div>
         </div>
     );
 };

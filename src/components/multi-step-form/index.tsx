@@ -87,7 +87,7 @@ const MultiStepForm: FC = () => {
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full">
+            <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full pb-[30vh] md:pb-0">
                 <AlertDialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
                     <AlertDialogContent>
                         <AlertDialogHeader>
@@ -104,13 +104,13 @@ const MultiStepForm: FC = () => {
                     </AlertDialogContent>
                 </AlertDialog>
 
-                <section className="w-full lg:max-w-7xl mx-auto bg-background text-card-foreground rounded-xl p-6 sm:p-4 lg:p-14 min-h-[750px] flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
-                    <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
+                <section className="m-3 md:max-w-7xl bg-background text-card-foreground rounded-xl p-3 sm:p-4 lg:p-14 flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
+                    <div className="flex flex-col-reverse lg:flex-row justify-between items-start gap-8 mb-4 md:mb-14">
                         <div className="relative h-[2.25rem] sm:h-[2.5rem]">
                             <h1
                                 key={displayedTitle}
                                 className={cn(
-                                    'text-3xl md:text-4xl  font-bold shrink-0  w-full',
+                                    'text-3xl md:text-4xl font-bold shrink-0 w-full',
                                     isAnimating ? 'animate-fade-out-up' : 'animate-fade-in-up'
                                 )}
                             >
@@ -133,12 +133,11 @@ const MultiStepForm: FC = () => {
                         </nav>
                     </div>
 
-                    {/* Form Content with Animation */}
-                    <main className="flex-1 relative">
+                    <main className="flex-1 md:pd-4">
                         <div
                             key={displayedStep}
                             className={cn(
-                                'absolute w-full transition-all duration-200',
+                                'w-full transition-all duration-200',
                                 isAnimating
                                     ? direction === 'forward'
                                         ? 'animate-fade-out-left'
@@ -152,9 +151,8 @@ const MultiStepForm: FC = () => {
                         </div>
                     </main>
 
-                    {/* Navigation Buttons */}
-                    <footer className="flex items-center justify-between pt-8 border-t">
-                        <div className="flex items-center gap-2">
+                    <footer className="flex flex-row tems-center justify-between gap-4 md:gap-0 pt-8 border-t mt-8">
+                        <div className="flex justify-start md:w-auto">
                             <Button
                                 type="button"
                                 variant="ghost"
@@ -163,30 +161,31 @@ const MultiStepForm: FC = () => {
                                 className="gap-2"
                             >
                                 <ChevronLeft className="w-4 h-4" />
-                                Previous
+                                <span>Previous</span>
                             </Button>
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-end gap-2 sm:gap-4">
                             <Button
                                 type="button"
                                 variant="outline"
                                 onClick={() => setIsResetDialogOpen(true)}
                                 disabled={isAnimating}
                                 className="gap-2"
+                                aria-label="Reset Form"
                             >
                                 <RotateCcw className="w-4 h-4" />
-                                Reset Form
+                                <span className="hidden sm:inline">Reset Form</span>
                             </Button>
 
                             {currentStep === steps.length - 1 ? (
                                 <Button type="submit" disabled={isAnimating} className="gap-2">
-                                    Submit Form
+                                    <span>Submit Form</span>
                                     <Send className="w-4 h-4" />
                                 </Button>
                             ) : (
                                 <Button type="button" onClick={handleNext} disabled={isAnimating} className="gap-2">
-                                    Next
+                                    <span>Next</span>
                                     <ChevronRight className="w-4 h-4" />
                                 </Button>
                             )}

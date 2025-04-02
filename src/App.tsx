@@ -3,7 +3,7 @@ import MultiStepForm from '@/components/multi-step-form';
 // src/app.jsx
 export default function App() {
     return (
-        <div className="h-screen w-screen flex items-center justify-center px-3 bg-white">
+        <div className="w-screen flex items-center justify-center  bg-white">
             <div
                 className="absolute inset-0 opacity-[0.15]"
                 style={{
@@ -27,6 +27,7 @@ export default function App() {
                     backgroundSize: '25.5px 25.5px', // 18px * sqrt(2)
                 }}
             />
+            <div className="absolute inset-0 bg-gradient-to-br from-white via-white/0 to-white" />
 
             <MultiStepForm />
         </div>

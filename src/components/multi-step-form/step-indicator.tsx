@@ -17,7 +17,7 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
     const stepColor = stepColors[step.color];
 
     return (
-        <div className="flex items-center flex-col md:flex-row">
+        <div className="flex items-center flex-col mt-5 md:mt-0 md:flex-row">
             <div
                 className={cn(
                     'flex items-center transition-all duration-500 relative',
