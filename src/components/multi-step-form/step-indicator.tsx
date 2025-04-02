@@ -22,7 +22,7 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                 className={cn(
                     'flex items-center transition-all duration-500 relative',
                     isActive && 'animate-stepExpand pl-0',
-                    isActive && 'rounded-full pr-6 shadow-lg animate-pulseLight'
+                    isActive && 'rounded-full pr-8 shadow-lg animate-pulseLight'
                 )}
                 style={
                     isActive
@@ -33,14 +33,14 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                               borderColor: stepColor.border,
                               borderLeftWidth: 0,
                               paddingLeft: '0',
-                              height: '48px',
+                              height: '56px', // Increased from 48px
                           }
                         : undefined
                 }
             >
                 <div
                     className={cn(
-                        'w-11 h-11 rounded-full flex items-center justify-center',
+                        'w-[52px] h-[52px] rounded-full flex items-center justify-center', // Increased from w-11 h-11 (44px)
                         'transition-all duration-300 ease-out',
                         'group cursor-pointer',
                         'hover:shadow-md',
@@ -69,21 +69,17 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                     />
 
                     {/* Icon container */}
-                    <div
-                        className={cn(
-                            'relative',
-                            'transition-all duration-200',
-                            'group-hover:animate-micro-bounce'
-                        )}
-                    >
-                        <div className={cn(
-                            'transition-all duration-300',
-                            'group-hover:scale-110 group-hover:rotate-[12deg]',
-                            isActive && 'animate-iconSpin'
-                        )}>
+                    <div className={cn('relative', 'transition-all duration-200', 'group-hover:animate-micro-bounce')}>
+                        <div
+                            className={cn(
+                                'transition-all duration-300',
+                                'group-hover:scale-110 group-hover:rotate-[12deg]',
+                                isActive && 'animate-iconSpin'
+                            )}
+                        >
                             {isComplete ? (
                                 <Check
-                                    size={22}
+                                    size={24} // Increased from 22
                                     className={cn(
                                         'transition-all duration-300',
                                         'group-hover:text-emerald-400',
@@ -92,7 +88,7 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                                 />
                             ) : (
                                 <step.icon
-                                    size={22}
+                                    size={24} // Increased from 22
                                     className={cn(
                                         'transition-all duration-300',
                                         'group-hover:text-primary/90',
@@ -105,12 +101,21 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                 </div>
 
                 {isActive && (
-                    <div className="ml-4 overflow-hidden">
-                        <div className="animate-slideIn">
-                            <p className="text-sm text-muted-foreground">
-                                Step {index + 1} / {totalSteps}
-                            </p>
-                            <p className="font-medium">{step.title}</p>
+                    <div className="ml-5 overflow-hidden relative">
+                        {' '}
+                        {/* Increased from ml-4 */}
+                        {/* Gradient border container */}
+                        <div className="relative">
+                            {/* Content container */}
+                            <div className="relative  rounded-lg p-2.5">
+                                {/* Increased from p-2 */}
+                                <div className="animate-slideIn">
+                                    <p className="text-sm text-muted-foreground">
+                                        Step {index + 1} / {totalSteps}
+                                    </p>
+                                    <p className="font-medium">{step.title}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -119,7 +124,7 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
             {index < totalSteps - 1 && (
                 <div
                     className={cn(
-                        'h-[2px] w-8 mx-3',
+                        'h-[2px] w-8 mx-4', // Increased from mx-3
                         'transition-all duration-500',
                         'group-hover:bg-primary/20'
                     )}

@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
-import { FC } from 'react';
 import { LightbulbIcon } from 'lucide-react';
+import { FC } from 'react';
 
 interface FormIllustrationProps {
     imageUrl: string;
@@ -13,15 +13,13 @@ const FormIllustration: FC<FormIllustrationProps> = ({ imageUrl, altText, tip, c
     return (
         <div className="relative hidden lg:block">
             <div className="sticky top-8 space-y-4">
-                <div className={cn(
-                    "relative rounded-2xl overflow-hidden h-[360px] shadow-[0_2px_8px_rgb(0,0,0,0.06)] backdrop-blur-sm",
-                    className
-                )}>
-                    <img
-                        src={imageUrl}
-                        alt={altText}
-                        className="w-full h-full object-contain bg-background/30"
-                    />
+                <div
+                    className={cn(
+                        'relative rounded-2xl overflow-hidden h-[300px] shadow-[0_2px_8px_rgb(0,0,0,0.06)] backdrop-blur-sm',
+                        className
+                    )}
+                >
+                    <img src={imageUrl} alt={altText} className="w-full h-full object-contain bg-background/30" />
                 </div>
 
                 {/* Tip Message */}

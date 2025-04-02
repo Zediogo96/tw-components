@@ -18,7 +18,7 @@ const PersonalInfo: FC = () => {
             {/* Left side - Form Fields */}
             <div className="space-y-6">
                 <p className="text-muted-foreground pb-3.5">
-                    Preencha os detalhes básicos do trabalho que você está oferecendo.
+                    Preencha os detalhes básicos do trabalho que está a oferecer.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -42,11 +42,7 @@ const PersonalInfo: FC = () => {
                             control={control}
                             rules={{ required: 'Grau de especialização é obrigatório' }}
                             render={({ field }) => (
-                                <Select
-                                    onValueChange={field.onChange}
-                                    value={field.value}
-                                    defaultValue={field.value}
-                                >
+                                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Selecionar" />
                                     </SelectTrigger>
@@ -70,8 +66,8 @@ const PersonalInfo: FC = () => {
                                 required: 'Título do trabalho é obrigatório',
                                 minLength: {
                                     value: 3,
-                                    message: 'Título deve ter no mínimo 3 caracteres'
-                                }
+                                    message: 'Título deve ter no mínimo 3 caracteres',
+                                },
                             })}
                         />
                     </FormField>
@@ -89,11 +85,7 @@ const PersonalInfo: FC = () => {
                             control={control}
                             rules={{ required: 'Área de trabalho é obrigatória' }}
                             render={({ field }) => (
-                                <Select
-                                    onValueChange={field.onChange}
-                                    value={field.value}
-                                    defaultValue={field.value}
-                                >
+                                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Selecionar área" />
                                     </SelectTrigger>
@@ -150,11 +142,7 @@ const PersonalInfo: FC = () => {
                             control={control}
                             rules={{ required: 'Tipo de horário é obrigatório' }}
                             render={({ field }) => (
-                                <Select
-                                    onValueChange={field.onChange}
-                                    value={field.value}
-                                    defaultValue={field.value}
-                                >
+                                <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Selecionar tipo" />
                                     </SelectTrigger>
@@ -182,8 +170,8 @@ const PersonalInfo: FC = () => {
                             {...register('jobDescription', {
                                 minLength: {
                                     value: 50,
-                                    message: 'A descrição deve ter no mínimo 50 caracteres'
-                                }
+                                    message: 'A descrição deve ter no mínimo 50 caracteres',
+                                },
                             })}
                         />
                     </FormField>

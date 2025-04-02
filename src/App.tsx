@@ -14,18 +14,18 @@ export default function App() {
           #1a56db 0px,
           #1a56db 1px,
           transparent 1px,
-          transparent 10px,
-          #6d28d9 10px,
-          #6d28d9 11px,
-          transparent 11px,
-          transparent 20px,
-          #be185d 20px,
-          #be185d 21px,
-          transparent 21px,
-          transparent 30px
+          transparent 6px,
+          #6d28d9 6px,
+          #6d28d9 7px,
+          transparent 7px,
+          transparent 12px,
+          #be185d 12px,
+          #be185d 13px,
+          transparent 13px,
+          transparent 18px
         )
       `,
-                        backgroundSize: '42.4px 42.4px', // 30px * sqrt(2)
+                        backgroundSize: '25.5px 25.5px', // 18px * sqrt(2)
                     }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-white via-white/0 to-white" />
