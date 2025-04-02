@@ -17,12 +17,13 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
     const stepColor = stepColors[step.color];
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center flex-col md:flex-row">
             <div
                 className={cn(
                     'flex items-center transition-all duration-500 relative',
+                    'w-full md:w-auto',
                     isActive && 'animate-stepExpand pl-0',
-                    isActive && 'rounded-full pr-8 shadow-lg animate-pulseLight'
+                    isActive && 'rounded-full pr-2 md:pr-8 shadow-lg animate-pulseLight'
                 )}
                 style={
                     isActive
@@ -33,14 +34,14 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                               borderColor: stepColor.border,
                               borderLeftWidth: 0,
                               paddingLeft: '0',
-                              height: '56px', // Increased from 48px
+                              height: '48px', // Base height for mobile
                           }
                         : undefined
                 }
             >
                 <div
                     className={cn(
-                        'w-[52px] h-[52px] rounded-full flex items-center justify-center',
+                        'w-10 h-10 md:w-[52px] md:h-[52px] rounded-full flex items-center justify-center',
                         'transition-all duration-300 ease-out',
                         'group cursor-pointer',
                         'hover:shadow-md',
@@ -68,18 +69,18 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                         >
                             {isComplete ? (
                                 <Check
-                                    size={24} // Increased from 22
+                                    size={20} // Smaller for mobile
                                     className={cn(
-                                        'transition-all duration-300',
+                                        'transition-all duration-300 md:h-6 md:w-6',
                                         'group-hover:text-emerald-400',
                                         'group-hover:animate-micro-wiggle'
                                     )}
                                 />
                             ) : (
                                 <step.icon
-                                    size={24} // Increased from 22
+                                    size={20} // Smaller for mobile
                                     className={cn(
-                                        'transition-all duration-300',
+                                        'transition-all duration-300 md:h-6 md:w-6',
                                         'group-hover:text-primary/90',
                                         'group-hover:animate-micro-wiggle'
                                     )}
@@ -90,12 +91,12 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                 </div>
 
                 {isActive && (
-                    <div className="ml-5 overflow-hidden relative">
+                    <div className="ml-2 md:ml-5 overflow-hidden relative">
                         <div className="animate-slideIn">
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-xs md:text-sm text-muted-foreground">
                                 Step {index + 1} / {totalSteps}
                             </p>
-                            <p className="font-medium">{step.title}</p>
+                            <p className="text-sm md:text-base font-medium">{step.title}</p>
                         </div>
                     </div>
                 )}
@@ -104,8 +105,8 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
             {index < totalSteps - 1 && (
                 <div
                     className={cn(
-                        'h-[2px] w-8 mx-4', // Increased from mx-3
-                        'transition-all duration-500',
+                        'h-[2px] w-4 md:w-8 mx-2 md:mx-4',
+                        'transition-all duration-500 hidden md:block',
                         'group-hover:bg-primary/20'
                     )}
                     style={{
