@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { cn } from '@/lib/utils';
 import { HelpCircle } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
@@ -31,16 +31,7 @@ export const FormField: FC<FormFieldProps> = ({ label, tooltip, children, requir
                 </HoverCard>
             )}
         </div>
-        <div className={cn(
-            "transition-all duration-300",
-            error && "animate-shake"
-        )}>
-            {children}
-        </div>
-        {error && (
-            <p className="text-sm text-destructive animate-fade-in-up">
-                {error}
-            </p>
-        )}
+        <div className={cn('transition-all duration-300', error && 'animate-shake')}>{children}</div>
+        {error && <p className="text-sm text-destructive animate-fade-in-up">{error}</p>}
     </div>
 );
