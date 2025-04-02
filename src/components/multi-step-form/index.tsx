@@ -1,3 +1,4 @@
+import SummaryView from '@/components/multi-step-form/steps/summary-view';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,7 +11,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, RotateCcw, Send } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, RotateCcw, Send } from 'lucide-react';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { defaultJobFormData, steps } from './constants';
@@ -24,6 +25,7 @@ const MultiStepForm: FC = () => {
     const [displayedStep, setDisplayedStep] = useState(currentStep);
     const [displayedTitle, setDisplayedTitle] = useState(steps[currentStep].title);
     const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
+    const [showingSummary, setShowingSummary] = useState(false);
 
     const methods = useForm<JobFormData>({
         defaultValues: defaultJobFormData,
@@ -85,25 +87,23 @@ const MultiStepForm: FC = () => {
         if (isAnimating) return;
 
         // Validate all fields up to the target step
-        const fieldsToValidate = steps
-            .slice(0, stepIndex)
-            .flatMap(step => {
-                // You'll need to define which fields belong to each step
-                switch (step.color) {
-                    case 'personal':
-                        return ['jobTitle', 'workArea', 'specialization', 'scheduleType'];
-                    case 'company':
-                        return ['workType', 'district', 'workAddress'];
-                    case 'job':
-                        return ['startDate', 'endDate', 'numberOfPositions'];
-                    case 'compensation':
-                        return ['paymentFrequency', 'paymentMethod'];
-                    default:
-                        return [];
-                }
-            });
+        const fieldsToValidate = steps.slice(0, stepIndex).flatMap((step) => {
+            // You'll need to define which fields belong to each step
+            switch (step.color) {
+                case 'personal':
+                    return ['jobTitle', 'workArea', 'specialization', 'scheduleType'];
+                case 'company':
+                    return ['workType', 'district', 'workAddress'];
+                case 'job':
+                    return ['startDate', 'endDate', 'numberOfPositions'];
+                case 'compensation':
+                    return ['paymentFrequency', 'paymentMethod'];
+                default:
+                    return [];
+            }
+        });
 
-        const isValid = await methods.trigger(fieldsToValidate);
+        const isValid = await methods.trigger(fieldsToValidate as (keyof JobFormData)[]);
 
         if (!isValid) {
             // Show error message or handle invalid form
@@ -128,9 +128,58 @@ const MultiStepForm: FC = () => {
         // Handle form submission
     };
 
+    const renderFooterButtons = () => {
+        if (currentStep === steps.length - 1) {
+            if (showingSummary) {
+                return (
+                    <>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setShowingSummary(false)}
+                            disabled={isAnimating}
+                            className="gap-2"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            <span>Voltar para edição</span>
+                        </Button>
+                        <Button type="submit" disabled={isAnimating} className="gap-2">
+                            <span>Confirmar e Publicar</span>
+                            <Send className="w-4 h-4" />
+                        </Button>
+                    </>
+                );
+            }
+            return (
+                <Button type="button" onClick={() => setShowingSummary(true)} disabled={isAnimating} className="gap-2">
+                    <span>Rever e Publicar</span>
+                    <ArrowRight className="w-4 h-4" />
+                </Button>
+            );
+        }
+
+        return (
+            <Button type="button" onClick={handleNext} disabled={isAnimating} className="gap-2">
+                <span>Next</span>
+                <ChevronRight className="w-4 h-4" />
+            </Button>
+        );
+    };
+
+    // Update the title logic
+    const getDisplayTitle = () => {
+        if (currentStep === steps.length - 1 && showingSummary) {
+            return 'Revisão da Vaga';
+        }
+        return steps[currentStep].title;
+    };
+
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full min-h-[100dvh] md:min-h-0 flex items-center justify-center py-4 px-4 md:py-8 md:px-6">
+            <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                className="w-full min-h-[100dvh] md:min-h-0 flex items-center justify-center py-4 px-4 md:py-8 md:px-6"
+            >
                 <AlertDialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
                     <AlertDialogContent>
                         <AlertDialogHeader>
@@ -157,24 +206,27 @@ const MultiStepForm: FC = () => {
                                     isAnimating ? 'animate-fade-out-up' : 'animate-fade-in-up'
                                 )}
                             >
-                                {displayedTitle}
+                                {getDisplayTitle()}
                             </h1>
                         </div>
 
-                        <nav className="w-full lg:w-auto" aria-label="Form Steps">
-                            <div className="flex items-center justify-between">
-                                {steps.map((step, index) => (
-                                    <StepIndicator
-                                        key={index}
-                                        step={step}
-                                        index={index}
-                                        currentStep={currentStep}
-                                        totalSteps={steps.length}
-                                        onStepClick={navigateToStep}
-                                    />
-                                ))}
-                            </div>
-                        </nav>
+                        {/* Only show step indicator if not in summary view */}
+                        {!(currentStep === steps.length - 1 && showingSummary) && (
+                            <nav className="w-full lg:w-auto" aria-label="Form Steps">
+                                <div className="flex items-center justify-between">
+                                    {steps.map((step, index) => (
+                                        <StepIndicator
+                                            key={index}
+                                            step={step}
+                                            index={index}
+                                            currentStep={currentStep}
+                                            totalSteps={steps.length}
+                                            onStepClick={navigateToStep}
+                                        />
+                                    ))}
+                                </div>
+                            </nav>
+                        )}
                     </div>
 
                     <main className="flex-1 md:pd-4">
@@ -191,17 +243,21 @@ const MultiStepForm: FC = () => {
                                     : 'animate-fade-in-left'
                             )}
                         >
-                            <CurrentStepComponent />
+                            {currentStep === steps.length - 1 && showingSummary ? (
+                                <SummaryView />
+                            ) : (
+                                <CurrentStepComponent />
+                            )}
                         </div>
                     </main>
 
-                    <footer className="flex flex-row tems-center justify-between gap-4 md:gap-0 pt-8 border-t mt-8">
+                    <footer className="flex flex-row items-center justify-between gap-4 md:gap-0 pt-8 border-t mt-8">
                         <div className="flex justify-start md:w-auto">
                             <Button
                                 type="button"
                                 variant="ghost"
                                 onClick={handlePrevious}
-                                disabled={currentStep === 0 || isAnimating}
+                                disabled={currentStep === 0 || isAnimating || showingSummary}
                                 className="gap-2"
                             >
                                 <ChevronLeft className="w-4 h-4" />
@@ -222,17 +278,7 @@ const MultiStepForm: FC = () => {
                                 <span className="hidden sm:inline">Reset Form</span>
                             </Button>
 
-                            {currentStep === steps.length - 1 ? (
-                                <Button type="submit" disabled={isAnimating} className="gap-2">
-                                    <span>Submit Form</span>
-                                    <Send className="w-4 h-4" />
-                                </Button>
-                            ) : (
-                                <Button type="button" onClick={handleNext} disabled={isAnimating} className="gap-2">
-                                    <span>Next</span>
-                                    <ChevronRight className="w-4 h-4" />
-                                </Button>
-                            )}
+                            {renderFooterButtons()}
                         </div>
                     </footer>
                 </section>
