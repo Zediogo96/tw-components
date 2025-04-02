@@ -145,7 +145,7 @@ const MultiStepForm: FC = () => {
                         </Button>
                         <Button type="submit" disabled={isAnimating} className="gap-2">
                             <span>Confirmar e Publicar</span>
-                            <Send className="w-4 h-4" />
+                            <Send className="w-4 h-4" />æ
                         </Button>
                     </>
                 );
@@ -196,7 +196,7 @@ const MultiStepForm: FC = () => {
                     </AlertDialogContent>
                 </AlertDialog>
 
-                <section className="w-full md:w-auto max-w-[95vw] md:max-w-7xl bg-background text-card-foreground rounded-xl p-3 sm:p-4 lg:p-14 flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
+                <section className="w-full md:w-auto min-w-[85vw] max-w-[95vw] md:max-w-7xl bg-background text-card-foreground rounded-xl p-3 sm:p-4 lg:p-14 flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
                     <div className="flex flex-col-reverse lg:flex-row justify-between items-start gap-8 mb-4 md:mb-14">
                         <div className="relative h-[2.25rem] sm:h-[2.5rem]">
                             <h1

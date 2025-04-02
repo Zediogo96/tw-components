@@ -1,22 +1,10 @@
-import { FC } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { JobFormData } from '../types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import {
-    Briefcase,
-    MapPin,
-    Calendar,
-    BanknoteIcon,
-    Building2,
-    Clock,
-    Users,
-    Wallet,
-    Receipt,
-    Gift
-} from 'lucide-react';
-import { steps } from '../constants';
+import { BanknoteIcon, Briefcase, Calendar, MapPin } from 'lucide-react';
+import { FC } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { JobFormData } from '../types';
 
 const SummaryView: FC = () => {
     const { watch } = useFormContext<JobFormData>();
@@ -45,7 +33,7 @@ const SummaryView: FC = () => {
     return (
         <Tabs defaultValue="summary" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="summary">Detalhes da Vaga</TabsTrigger>
+                <TabsTrigger value="summary">Informações</TabsTrigger>
                 <TabsTrigger value="preview">Visualização</TabsTrigger>
             </TabsList>
 
@@ -54,9 +42,15 @@ const SummaryView: FC = () => {
                     {/* Left Column */}
                     <div className="space-y-6">
                         {/* Basic Info Section */}
-                        <div className="rounded-lg border p-4 space-y-4">
+                        <div
+                            className="rounded-lg border p-4 space-y-4 animate-slide-up-fade"
+                            style={{ animationDelay: '0ms' }}
+                        >
                             <div className="flex items-center gap-2">
-                                <Briefcase className={stepColors.personal} />
+                                <Briefcase
+                                    className={`${stepColors.personal} animate-icon-pop`}
+                                    style={{ animationDelay: '200ms' }}
+                                />
                                 <h3 className="font-semibold">Informações Básicas</h3>
                             </div>
                             <div className="grid gap-3 text-sm">
@@ -70,25 +64,37 @@ const SummaryView: FC = () => {
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium">Especialização</span>
-                                    <span className="text-muted-foreground capitalize">{formData.specialization || '—'}</span>
+                                    <span className="text-muted-foreground capitalize">
+                                        {formData.specialization || '—'}
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Location Section */}
-                        <div className="rounded-lg border p-4 space-y-4">
+                        <div
+                            className="rounded-lg border p-4 space-y-4 animate-slide-up-fade"
+                            style={{ animationDelay: '100ms' }}
+                        >
                             <div className="flex items-center gap-2">
-                                <MapPin className={stepColors.company} />
+                                <MapPin
+                                    className={`${stepColors.company} animate-icon-pop`}
+                                    style={{ animationDelay: '300ms' }}
+                                />
                                 <h3 className="font-semibold">Localização</h3>
                             </div>
                             <div className="grid gap-3 text-sm">
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium">Tipo</span>
-                                    <span className="text-muted-foreground capitalize">{formData.workType === 'local' ? 'Presencial' : 'Remoto'}</span>
+                                    <span className="text-muted-foreground capitalize">
+                                        {formData.workType === 'local' ? 'Presencial' : 'Remoto'}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium">Endereço</span>
-                                    <span className="text-muted-foreground text-right">{formData.workAddress || '—'}</span>
+                                    <span className="text-muted-foreground text-right">
+                                        {formData.workAddress || '—'}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -97,9 +103,15 @@ const SummaryView: FC = () => {
                     {/* Right Column */}
                     <div className="space-y-6">
                         {/* Schedule Section */}
-                        <div className="rounded-lg border p-4 space-y-4">
+                        <div
+                            className="rounded-lg border p-4 space-y-4 animate-slide-up-fade"
+                            style={{ animationDelay: '200ms' }}
+                        >
                             <div className="flex items-center gap-2">
-                                <Calendar className={stepColors.job} />
+                                <Calendar
+                                    className={`${stepColors.job} animate-icon-pop`}
+                                    style={{ animationDelay: '400ms' }}
+                                />
                                 <h3 className="font-semibold">Horário & Vagas</h3>
                             </div>
                             <div className="grid gap-3 text-sm">
@@ -119,15 +131,23 @@ const SummaryView: FC = () => {
                         </div>
 
                         {/* Compensation Section */}
-                        <div className="rounded-lg border p-4 space-y-4">
+                        <div
+                            className="rounded-lg border p-4 space-y-4 animate-slide-up-fade"
+                            style={{ animationDelay: '300ms' }}
+                        >
                             <div className="flex items-center gap-2">
-                                <BanknoteIcon className={stepColors.compensation} />
+                                <BanknoteIcon
+                                    className={`${stepColors.compensation} animate-icon-pop`}
+                                    style={{ animationDelay: '500ms' }}
+                                />
                                 <h3 className="font-semibold">Remuneração</h3>
                             </div>
                             <div className="grid gap-3 text-sm">
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium">Frequência</span>
-                                    <span className="text-muted-foreground capitalize">{formData.paymentFrequency || '—'}</span>
+                                    <span className="text-muted-foreground capitalize">
+                                        {formData.paymentFrequency || '—'}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium">Salário</span>
@@ -135,7 +155,9 @@ const SummaryView: FC = () => {
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium">Método</span>
-                                    <span className="text-muted-foreground capitalize">{formData.paymentMethod || '—'}</span>
+                                    <span className="text-muted-foreground capitalize">
+                                        {formData.paymentMethod || '—'}
+                                    </span>
                                 </div>
                                 {formData.benefits && (
                                     <div className="flex justify-between items-center">
@@ -150,7 +172,7 @@ const SummaryView: FC = () => {
             </TabsContent>
 
             <TabsContent value="preview">
-                <div className="flex items-center justify-center p-8">
+                <div className="flex items-center justify-center p-8 animate-fade-in-up">
                     <p className="text-muted-foreground">Visualização em desenvolvimento...</p>
                 </div>
             </TabsContent>
