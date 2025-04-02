@@ -40,7 +40,7 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
             >
                 <div
                     className={cn(
-                        'w-[52px] h-[52px] rounded-full flex items-center justify-center', // Increased from w-11 h-11 (44px)
+                        'w-[52px] h-[52px] rounded-full flex items-center justify-center',
                         'transition-all duration-300 ease-out',
                         'group cursor-pointer',
                         'hover:shadow-md',
@@ -57,17 +57,6 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
                             : undefined
                     }
                 >
-                    {/* Background spotlight effect */}
-                    <div
-                        className={cn(
-                            'absolute inset-0 rounded-full opacity-0',
-                            'bg-white/10',
-                            'transition-opacity duration-300',
-                            'group-hover:opacity-100',
-                            'group-hover:animate-spotlight-pulse'
-                        )}
-                    />
-
                     {/* Icon container */}
                     <div className={cn('relative', 'transition-all duration-200', 'group-hover:animate-micro-bounce')}>
                         <div
@@ -102,20 +91,11 @@ export const StepIndicator: FC<StepIndicatorProps> = ({ step, index, currentStep
 
                 {isActive && (
                     <div className="ml-5 overflow-hidden relative">
-                        {' '}
-                        {/* Increased from ml-4 */}
-                        {/* Gradient border container */}
-                        <div className="relative">
-                            {/* Content container */}
-                            <div className="relative  rounded-lg p-2.5">
-                                {/* Increased from p-2 */}
-                                <div className="animate-slideIn">
-                                    <p className="text-sm text-muted-foreground">
-                                        Step {index + 1} / {totalSteps}
-                                    </p>
-                                    <p className="font-medium">{step.title}</p>
-                                </div>
-                            </div>
+                        <div className="animate-slideIn">
+                            <p className="text-sm text-muted-foreground">
+                                Step {index + 1} / {totalSteps}
+                            </p>
+                            <p className="font-medium">{step.title}</p>
                         </div>
                     </div>
                 )}

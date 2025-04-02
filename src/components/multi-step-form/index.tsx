@@ -104,13 +104,13 @@ const MultiStepForm: FC = () => {
                     </AlertDialogContent>
                 </AlertDialog>
 
-                <section className="w-full max-w-7xl mx-auto bg-background text-card-foreground rounded-xl p-6 sm:p-8 lg:p-14 min-h-[750px] flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
+                <section className="w-full lg:max-w-7xl mx-auto bg-background text-card-foreground rounded-xl p-6 sm:p-4 lg:p-14 min-h-[750px] flex flex-col border relative z-10 backdrop-blur-sm shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
                     <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-14">
                         <div className="relative h-[2.25rem] sm:h-[2.5rem]">
                             <h1
                                 key={displayedTitle}
                                 className={cn(
-                                    'text-2xl sm:text-3xl font-bold shrink-0  w-full',
+                                    'text-3xl md:text-4xl  font-bold shrink-0  w-full',
                                     isAnimating ? 'animate-fade-out-up' : 'animate-fade-in-up'
                                 )}
                             >
